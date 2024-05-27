@@ -4,6 +4,7 @@ import axios from 'axios';
 
 const ItemList = () => {
     const [items, setItems] = useState([]);
+    const [users, setUsers] = useState([])
 
     useEffect(() => {
         axios.get('http://localhost:8000/api/items/')
@@ -15,14 +16,35 @@ const ItemList = () => {
             });
     }, []);
 
+        useEffect(() => {
+        axios.get('http://localhost:8000/api/users/')
+            .then(response => {
+                setUsers(response.data);
+            })
+            .catch(error => {
+                console.error('There was an error fetching the data!', error);
+            });
+    }, []);
+
+
     return (
         <div>
-            <h1>Items</h1>
-            <ul>
-                {items.map(item => (
-                    <li key={item.id}>{item.name}: {item.description}</li>
-                ))}
-            </ul>
+            <h1 align="left">Chats</h1>
+            <div>
+                <ul>
+                    {items.map(item => (
+                        <li key={item.id}>{item.name}: {item.description}</li>
+                    ))}
+                </ul>
+            </div>
+            <div>
+                <a href={'#'}>
+                    {users.map(user => (
+                        <li key={user.id}>{user.name}: {user.email}</li>
+                    ))
+                    }
+                </a>
+            </div>
         </div>
     );
 };
