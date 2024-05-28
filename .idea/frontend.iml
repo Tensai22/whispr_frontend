@@ -6,5 +6,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="history" level="application" />
+    <orderEntry type="library" name="react-router" level="application" />
+    <orderEntry type="library" name="react-router-dom" level="application" />
   </component>
 </module>
