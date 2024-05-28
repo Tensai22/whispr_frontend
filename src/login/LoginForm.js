@@ -8,14 +8,14 @@ const LoginForm = () => {
     const [successMessage, setSuccessMessage] = useState('');
 
     const [UserNameAdd, setUserNameAdd] = useState(false);
-    const [userEmail, setUserEmail] = useState('');
+    const [userName, setUserName] = useState('');
 
 
     const onSubmit = async (data) => {
         try {
             const response = await axios.post('http://localhost:8000/api/login/', data);
             console.log('Success:', response.data);
-            setUserEmail(data.email)
+            setUserName(data.username)
             setSuccessMessage("Успешная авторизация");
             setUserNameAdd(true);
             reset()
@@ -32,7 +32,7 @@ return (
             {UserNameAdd ? (
                 <div align="right">
                     <h2>Вы успешно вошли в систему</h2>
-                    <h1>{userEmail}</h1>
+                    <h1>{userName}</h1>
                 </div>
             ) : (
                 <div>

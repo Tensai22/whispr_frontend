@@ -101,21 +101,6 @@ const RegisterForm = () => {
                 {errors.confirmPassword && <span>{errors.confirmPassword.message}</span>}
             </div>
             <div>
-                <label>Bio:</label>
-                <textarea
-                    name="bio"
-                    {...register('bio')}
-                />
-            </div>
-            <div>
-                <label>Location:</label>
-                <input
-                    name="location"
-                    type="text"
-                    {...register('location')}
-                />
-            </div>
-            <div>
                 <label>Birth Date:</label>
                 <input
                     name="birth_date"
