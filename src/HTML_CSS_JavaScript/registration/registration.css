@@ -1,33 +1,51 @@
 body {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     height: 100vh;
     background-color: #2e2e2e;
-    margin: 0 auto 0 auto;
+    margin: 0;
     font-family: Arial, sans-serif;
+    overflow: hidden;
 }
 
 header {
     width: 100%;
-    background-color: #3a3a3a;
-    padding: 10px 0;
+    background-color: #474747;
+    padding: 0px;
+    display: flex;
     text-align: left;
+    height: 30px;
+    overflow: hidden;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
 }
 
 header img {
-    margin-left: 20px;
+    margin-left: 0px;
+    height: 100%;
+    width: auto;
+}
+
+.logo-text {
+    font-family: 'Krona One', sans-serif;
+    font-size: 22px;
+    color: #959694;
+    margin-left: 5px;
 }
 
 .registration-form {
-    background-color: #3a3a3a;
+    background-color: #474747;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     width: 300px;
     text-align: center;
-    margin-top: 20px; /* Добавим отступ сверху */
+    margin-top: 20px;
 }
 
 .registration-form h2 {
@@ -63,15 +81,59 @@ header img {
 }
 
 .buttons button[type="button"] {
-    background-color: #444;
+    background-color: #383838;
     color: #fff;
 }
 
 .buttons button[type="submit"] {
-    background-color: #1e90ff;
+    background-color: #737373;
     color: #fff;
 }
 
 .buttons button:hover {
     opacity: 0.8;
+}
+
+footer {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    width: 100%;
+    background-color: #1e1e1e;
+    color: #fff;
+    padding: -10px 0;
+    overflow: hidden;
+}
+
+.footer-section {
+    text-align: center;
+    flex: 1;
+}
+
+.footer-section h3 {
+    margin-bottom: 10px;
+}
+
+.footer-section p {
+    margin: 5px 0;
+}
+
+.footer-section a img {
+    width: 15px;
+    height: 15px;
+    margin-left: 5px;
+}
+
+.contact-us {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.contact-us h1 {
+    margin-bottom: 10px;
+}
+
+.contact-us h3 {
+    margin-top: 0;
 }
