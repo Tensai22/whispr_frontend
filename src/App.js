@@ -3,6 +3,8 @@ import LoginForm from "./login_registration/LoginForm";
 import RegisterForm from "./register/RegisterForm";
 import * as ReactRouterDOM from "react-router-dom";
 import Chat from "./chatting/Chat";
+import PasswordReset from "./register/PasswordReset";
+import ResetPage from "./register/ResetPage";
 
 const Router = ReactRouterDOM.BrowserRouter;
 const Route = ReactRouterDOM.Route;
@@ -24,6 +26,8 @@ const App = () => {
                 <Route path="/login" element={<LoginForm/>}/>
                 <Route path="/registration" element={<RegisterForm/>}/>
                 <Route path="/chat" element={<Chat/>}/>
+                <Route path="/reset_password_by_email" element={<PasswordReset/>}/>
+                <Route path="/reset/:uidb64/:token" element={<ResetPage />} />
             </Routes>
         </Router>
     );

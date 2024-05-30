@@ -37,7 +37,6 @@ const RegisterForm = () => {
         } catch (error) {
             console.error('Error:', error);
             setErrorMessage('Ошибка при регистрации');
-            setSuccessMessage('');
         }
     };
 
