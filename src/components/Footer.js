@@ -1,5 +1,5 @@
 import React from 'react';
-import './log_reg.css';
+import 'C:\Users\KhanekShakh\Desktop\whispr_frontend\src\HTML_CSS_JavaScript\login_registration\log_reg.css';
 
 const Footer = () => {
   return (
