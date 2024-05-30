@@ -80,7 +80,7 @@ const LoginForm = (redirectToResetPassword) => {
                     <button type="submit">Login</button>
                     {successMessage && <div>{successMessage}</div>}
                 </form>
-                <button onClick={handleRedirect}>Go to Target Page</button>
+                <button onClick={handleRedirect}>Forget password?</button>
             </>
 
 

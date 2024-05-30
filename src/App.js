@@ -1,5 +1,5 @@
 import './App.css';
-import LoginForm from '/register/LoginForm';
+import LoginForm from './register/LoginForm';
 import RegisterForm from "./register/RegisterForm";
 import * as ReactRouterDOM from "react-router-dom";
 import Chat from "./chatting/Chat";
