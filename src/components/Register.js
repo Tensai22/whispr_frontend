@@ -1,11 +1,12 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import Header from "./Header";
+import Footer from "./Footer";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../HTML_CSS_JavaScript/login_registration/log_reg.css';
 
-const RegistrationPage = () => {
-  const history = useHistory();
-
+const Register = () => {
   const goBack = () => {
-    history.goBack();
+    window.history.back();
   };
 
   const handleSubmit = (event) => {
@@ -19,8 +20,8 @@ const RegistrationPage = () => {
     }
     alert('Регистрация успешна!');
   };
-
   return (
+      <div>
     <div className="registration-form">
       <h2>Регистрация</h2>
       <form id="registrationForm" onSubmit={handleSubmit}>
@@ -35,7 +36,8 @@ const RegistrationPage = () => {
         </div>
       </form>
     </div>
+      </div>
   );
 };
 
-export default RegistrationPage;
+export default Register;

@@ -1,9 +1,9 @@
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../HTML_CSS_JavaScript/login_registration/log_reg.css';
-import Footer from "./Footer";
-import Login from "./Login";
+import RFooter from "./RFooter";
 import Header from "./Header";
+import Register from "./Register";
 
 
 const MainPage = () => {
@@ -11,8 +11,8 @@ const MainPage = () => {
     return (
         <div>
             <Header/>
-            <Login/>
-            <Footer/>
+            <Register/>
+            <RFooter/>
         </div>
     )
 }

@@ -2,9 +2,9 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../HTML_CSS_JavaScript/login_registration/log_reg.css';
 
-const Footer = () => {
+const Rfooter = () => {
   return (
-    <footer>
+    <footer className="footer-registration">
       <div className="footer-section">
         <h3>Ном.телефона</h3>
         <p>+77007826147</p>
@@ -13,6 +13,7 @@ const Footer = () => {
         <p>+77081773609</p>
       </div>
       <div className="footer-section">
+        <h5>Связаться с нами</h5>
         <h3>Эл.почта</h3>
         <p>khanekshakh@gmail.com</p>
         <p>nurik.shakh@gmail.com</p>
@@ -30,4 +31,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default Rfooter;
