@@ -7,6 +7,7 @@ const PasswordResetForm = () => {
     window.history.back();
   };
 
+
   return (
     <div className="container d-flex flex-column justify-content-center align-items-center vh-100">
       <div className="password-reset-form">

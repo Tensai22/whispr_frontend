@@ -2,6 +2,7 @@ import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../HTML_CSS_JavaScript/login_registration/log_reg.css';
 
+
 const RegisterFormKHAN = () => {
   const goBack = () => {
     window.history.back();

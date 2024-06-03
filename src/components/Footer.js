@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../HTML_CSS_JavaScript/login_registration/log_reg.css';
 
 const Footer = () => {
+
   return (
     <footer>
       <div className="footer-section">

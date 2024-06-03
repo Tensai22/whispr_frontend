@@ -6,7 +6,6 @@ import LoginFormKHAN from "./LoginFormKHAN";
 import Header from "./Header";
 import { Helmet } from 'react-helmet';
 
-
 const MainPage = () => {
 
     return (

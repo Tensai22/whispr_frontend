@@ -5,6 +5,7 @@ import Header from "./Header";
 import ForgotForm from "./ForgotFormKhan";
 import Footer from "./Footer";
 const MainPage = () => {
+
     return (
         <div>
             <Header/>

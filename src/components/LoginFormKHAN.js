@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import '../HTML_CSS_JavaScript/login_registration/log_reg.css';
 
 const LoginFormKHAN = () => {
+
   const navigate = useNavigate();
 
   const handleRedirectRegister = () => {
