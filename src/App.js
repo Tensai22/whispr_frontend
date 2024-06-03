@@ -6,6 +6,7 @@ import MainPage from './components/MainPage';
 import LoginForm from "./register/LoginForm";
 import Register from "./components/RegisterPage";
 import ForgotPasswordPage from "./components/ForgotPasswordPage";
+import Messenger from "./chatting/Messenger";
 
 const Router = ReactRouterDOM.BrowserRouter;
 const Route = ReactRouterDOM.Route;
@@ -30,6 +31,7 @@ const App = () => {
                 <Route path="/1" element={<MainPage/>}/>
                 <Route path="/register" element={<Register/>} />
                 <Route path="/forgotpassword" element={<ForgotPasswordPage/>}/>
+                <Route path="/message" element={<Messenger/>}/>
             </Routes>
         </Router>
     );

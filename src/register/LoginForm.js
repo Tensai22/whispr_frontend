@@ -26,7 +26,7 @@ const LoginForm = (redirectToResetPassword) => {
                 setSuccessMessage("Успешная авторизация");
                 setUserNameAdd(true);
                 reset()
-                navigate('/message');
+                navigate('/');
             } catch (error) {
                 console.error('Error:', error);
             }

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../HTML_CSS_JavaScript/login_registration/log_reg.css';
 
 const Messenger = () => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
