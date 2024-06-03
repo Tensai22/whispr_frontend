@@ -22,10 +22,10 @@ const Rfooter = () => {
       </div>
       <div className="footer-section">
         <h3>Соц.сети</h3>
-        <p>khngldi <a href="#"><img src={require("../HTML_CSS_JavaScript/login_registration/Instagram_logo.png")} alt="Instagram" /></a> <a href="#"><img src={require("../HTML_CSS_JavaScript/login_registration/FaceBook_logo.png")} alt="Facebook" /></a> <a href="#"><img src={require("../HTML_CSS_JavaScript/login_registration/Telegram_logo.png")} alt="Telegram" /></a></p>
-        <p>p_a_r_r_o_t <a href="#"><img src={require("../HTML_CSS_JavaScript/login_registration/Instagram_logo.png")} alt="Instagram" /></a> <a href="#"><img src={require("../HTML_CSS_JavaScript/login_registration/FaceBook_logo.png")} alt="Facebook" /></a> <a href="#"><img src={require("../HTML_CSS_JavaScript/login_registration/Telegram_logo.png")} alt="Telegram" /></a></p>
-        <p>tensxi <a href="#"><img src={require("../HTML_CSS_JavaScript/login_registration/Instagram_logo.png")} alt="Instagram" /></a> <a href="#"><img src={require("../HTML_CSS_JavaScript/login_registration/FaceBook_logo.png")} alt="Facebook" /></a> <a href="#"><img src={require("../HTML_CSS_JavaScript/login_registration/Telegram_logo.png")} alt="Telegram" /></a></p>
-        <p>Bauka <a href="#"><img src={require("../HTML_CSS_JavaScript/login_registration/Instagram_logo.png")} alt="Instagram" /></a> <a href="#"><img src={require("../HTML_CSS_JavaScript/login_registration/FaceBook_logo.png")} alt="Facebook" /></a> <a href="#"><img src={require("../HTML_CSS_JavaScript/login_registration/Telegram_logo.png")} alt="Telegram" /></a></p>
+        <p>khngldi <img src={require("../HTML_CSS_JavaScript/login_registration/Instagram_logo.png")} alt="Instagram" /> <img src={require("../HTML_CSS_JavaScript/login_registration/FaceBook_logo.png")} alt="Facebook" /><img src={require("../HTML_CSS_JavaScript/login_registration/Telegram_logo.png")} alt="Telegram" /></p>
+        <p>p_a_r_r_o_t <img src={require("../HTML_CSS_JavaScript/login_registration/Instagram_logo.png")} alt="Instagram" /> <img src={require("../HTML_CSS_JavaScript/login_registration/FaceBook_logo.png")} alt="Facebook" /><img src={require("../HTML_CSS_JavaScript/login_registration/Telegram_logo.png")} alt="Telegram" /></p>
+        <p>tensxi <img src={require("../HTML_CSS_JavaScript/login_registration/Instagram_logo.png")} alt="Instagram" /><img src={require("../HTML_CSS_JavaScript/login_registration/FaceBook_logo.png")} alt="Facebook" /><img src={require("../HTML_CSS_JavaScript/login_registration/Telegram_logo.png")} alt="Telegram" /></p>
+        <p>Bauka <img src={require("../HTML_CSS_JavaScript/login_registration/Instagram_logo.png")} alt="Instagram" /><img src={require("../HTML_CSS_JavaScript/login_registration/FaceBook_logo.png")} alt="Facebook" /><img src={require("../HTML_CSS_JavaScript/login_registration/Telegram_logo.png")} alt="Telegram" /></p>
       </div>
     </footer>
   );
