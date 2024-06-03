@@ -5,6 +5,7 @@ import Chat from "./chatting/Chat";
 import MainPage from './components/MainPage';
 import LoginForm from "./register/LoginForm";
 import Register from "./components/RegisterPage";
+import Messenger from "./chatting/Messenger";
 
 const Router = ReactRouterDOM.BrowserRouter;
 const Route = ReactRouterDOM.Route;
@@ -27,7 +28,8 @@ const App = () => {
                 <Route path="/registration" element={<RegisterForm/>}/>
                 <Route path="/chat" element={<Chat/>}/>
                 <Route path="/1" element={<MainPage/>}/>
-                <Route path="/register" element={<Register/>} />
+                <Route path="/register" element={<Register/>}/>
+                <Route path="/message" element={<Messenger/>}/>
             </Routes>
         </Router>
     );

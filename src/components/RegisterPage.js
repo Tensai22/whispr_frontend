@@ -1,9 +1,9 @@
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../HTML_CSS_JavaScript/login_registration/log_reg.css';
-import RFooter from "./RFooter";
 import Header from "./Header";
 import Register from "./Register";
+import Footer from "./Footer";
 
 
 const MainPage = () => {
@@ -12,7 +12,7 @@ const MainPage = () => {
         <div>
             <Header/>
             <Register/>
-            <RFooter/>
+            <Footer/>
         </div>
     )
 }

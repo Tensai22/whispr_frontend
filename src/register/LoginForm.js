@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {useForm} from 'react-hook-form';
-import * as ReactRouterDOM from "react-router-dom";
 import axios from 'axios';
 import {useNavigate} from "react-router-dom";
 
@@ -27,6 +26,7 @@ const LoginForm = (redirectToResetPassword) => {
                 setSuccessMessage("Успешная авторизация");
                 setUserNameAdd(true);
                 reset()
+                navigate('/message');
             } catch (error) {
                 console.error('Error:', error);
             }
