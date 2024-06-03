@@ -1,17 +1,14 @@
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../HTML_CSS_JavaScript/login_registration/log_reg.css';
-import Footer from "./Footer";
 import Header from "./Header";
-import RegisterFormKHAN from "./RegisterFormKHAN";
-
-
+import ForgotForm from "./ForgotFormKhan";
+import Footer from "./Footer";
 const MainPage = () => {
-
     return (
         <div>
             <Header/>
-            <RegisterFormKHAN/>
+            <ForgotForm/>
             <Footer/>
         </div>
     )

@@ -5,6 +5,7 @@ import Chat from "./chatting/Chat";
 import MainPage from './components/MainPage';
 import LoginForm from "./register/LoginForm";
 import Register from "./components/RegisterPage";
+import Forgot from "./components/ForgotPasswordPage";
 
 const Router = ReactRouterDOM.BrowserRouter;
 const Route = ReactRouterDOM.Route;
@@ -28,6 +29,7 @@ const App = () => {
                 <Route path="/chat" element={<Chat/>}/>
                 <Route path="/1" element={<MainPage/>}/>
                 <Route path="/register" element={<Register/>} />
+                <Route path="/forgotpassword" element={<Forgot/>} />
             </Routes>
         </Router>
     );
