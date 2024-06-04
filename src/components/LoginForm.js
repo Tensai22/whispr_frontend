@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {useNavigate} from "react-router-dom";
-import '../HTML_CSS_JavaScript/login_registration/log_reg.css';
+import '../css/log_reg.css';
 import {useForm} from "react-hook-form";
 import axios from "axios";
 
-const LoginFormKHAN = () => {
+const LoginForm = () => {
     const {register, handleSubmit, formState: {errors}, reset} = useForm();
     const [successMessage, setSuccessMessage] = useState('');
 
@@ -16,7 +16,7 @@ const LoginFormKHAN = () => {
 
 
     const handleRedirect = () => {
-        navigate('/reset_password_by_email');
+        navigate('/reset_password');
     };
 
     const onSubmit = async (data) => {
@@ -35,7 +35,7 @@ const LoginFormKHAN = () => {
 
 
     const handleRedirectRegister = () => {
-        navigate('/register');
+        navigate('/registration');
     };
 
     return (
@@ -91,4 +91,4 @@ const LoginFormKHAN = () => {
     );
 };
 
-export default LoginFormKHAN;
+export default LoginForm;

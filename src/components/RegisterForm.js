@@ -1,12 +1,12 @@
 import React, {useState} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../HTML_CSS_JavaScript/login_registration/log_reg.css';
+import '../css/log_reg.css';
 import {useForm} from "react-hook-form";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 
 
-const RegisterFormKHAN = () => {
+const RegisterForm = () => {
     const {register, handleSubmit, watch, formState: {errors}, reset} = useForm();
     const password = watch('password');
     const [successMessage, setSuccessMessage] = useState('');
@@ -28,8 +28,8 @@ const RegisterFormKHAN = () => {
         return cookieValue;
     }
 
-    const goBack = () => {
-        window.history.back();
+    const goLogin = () => {
+        navigate('/login')
     };
 
     const onSubmit = async (data) => {
@@ -43,7 +43,7 @@ const RegisterFormKHAN = () => {
         setSuccessMessage('Успешная регистрация');
         setErrorMessage('');
         reset();
-        navigate('/message');
+        navigate('/chat');
     } catch (error) {
         console.error('Error:', error);
         if (error.response && error.response.data) {
@@ -105,7 +105,7 @@ const RegisterFormKHAN = () => {
                                name="birth_date" {...register('birth_date')}/>
                     </div>
                     <div className="d-flex justify-content-between">
-                        <button type="button" className="btn btn-secondary" onClick={goBack}>Назад</button>
+                        <button type="button" className="btn btn-secondary" onClick={goLogin}>Назад</button>
                         <button type="submit" className="btn btn-primary">Зарегистрироваться</button>
                         {successMessage && <div>{successMessage}</div>}
                         {errorMessage && <div>{errorMessage}</div>}
@@ -116,4 +116,4 @@ const RegisterFormKHAN = () => {
     );
 };
 
-export default RegisterFormKHAN;
+export default RegisterForm;

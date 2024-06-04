@@ -1,6 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../HTML_CSS_JavaScript/login_registration/log_reg.css';
+import '../css/log_reg.css';
 
 const Footer = () => {
 
@@ -22,10 +22,10 @@ const Footer = () => {
       </div>
       <div className="footer-section">
         <h3>Соц.сети</h3>
-        <p>khngldi <img src={require("../HTML_CSS_JavaScript/login_registration/Instagram_logo.png")} alt="Instagram" /> <img src={require("../HTML_CSS_JavaScript/login_registration/FaceBook_logo.png")} alt="Facebook" /><img src={require("../HTML_CSS_JavaScript/login_registration/Telegram_logo.png")} alt="Telegram" /></p>
-        <p>p_a_r_r_o_t <img src={require("../HTML_CSS_JavaScript/login_registration/Instagram_logo.png")} alt="Instagram" /><img src={require("../HTML_CSS_JavaScript/login_registration/FaceBook_logo.png")} alt="Facebook" /><img src={require("../HTML_CSS_JavaScript/login_registration/Telegram_logo.png")} alt="Telegram" /></p>
-        <p>tensxi <img src={require("../HTML_CSS_JavaScript/login_registration/Instagram_logo.png")} alt="Instagram" /><img src={require("../HTML_CSS_JavaScript/login_registration/FaceBook_logo.png")} alt="Facebook" /><img src={require("../HTML_CSS_JavaScript/login_registration/Telegram_logo.png")} alt="Telegram" /></p>
-        <p>Bauka <img src={require("../HTML_CSS_JavaScript/login_registration/Instagram_logo.png")} alt="Instagram" /><img src={require("../HTML_CSS_JavaScript/login_registration/FaceBook_logo.png")} alt="Facebook" /><img src={require("../HTML_CSS_JavaScript/login_registration/Telegram_logo.png")} alt="Telegram" /></p>
+        <p>khngldi <img src={require("../assets/Instagram_logo.png")} alt="Instagram" /> <img src={require("../assets/FaceBook_logo.png")} alt="Facebook" /><img src={require("../assets/Telegram_logo.png")} alt="Telegram" /></p>
+        <p>p_a_r_r_o_t <img src={require("../assets/Instagram_logo.png")} alt="Instagram" /><img src={require("../assets/FaceBook_logo.png")} alt="Facebook" /><img src={require("../assets/Telegram_logo.png")} alt="Telegram" /></p>
+        <p>tensxi <img src={require("../assets/Instagram_logo.png")} alt="Instagram" /><img src={require("../assets/FaceBook_logo.png")} alt="Facebook" /><img src={require("../assets/Telegram_logo.png")} alt="Telegram" /></p>
+        <p>Bauka <img src={require("../assets/Instagram_logo.png")} alt="Instagram" /><img src={require("../assets/FaceBook_logo.png")} alt="Facebook" /><img src={require("../assets/Telegram_logo.png")} alt="Telegram" /></p>
       </div>
     </footer>
   );

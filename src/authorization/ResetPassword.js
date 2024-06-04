@@ -1,9 +1,9 @@
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../HTML_CSS_JavaScript/login_registration/log_reg.css';
-import Header from "./Header";
-import ForgotForm from "./ForgotFormKhan";
-import Footer from "./Footer";
+import '../css/log_reg.css';
+import Header from "../components/Header";
+import ForgotForm from "../components/ResetPasswordForm";
+import Footer from "../components/Footer";
 const MainPage = () => {
 
     return (
