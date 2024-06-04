@@ -2,12 +2,17 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center;
+    align-items: stretch; /* Изменено с center на stretch */
     height: 100vh;
     background-color: #2e2e2e;
     margin: 0;
     font-family: Arial, sans-serif;
     overflow-x: hidden;
+}
+
+* {
+    margin: 0;
+    padding: 0;
 }
 
 header {
@@ -16,14 +21,15 @@ header {
     background-color: #474747;
     display: flex;
     text-align: left;
-    height: 30px;
+    height: 50px;
     padding: 0 10px;
-
+    vertical-align: middle;
+    line-height: 50px;
 }
 
 .logo-container {
     display: flex;
-    align-items: center;
+    align-items: stretch;
 }
 
 header img {
@@ -33,10 +39,23 @@ header img {
 
 .logo-text {
     font-family: cursive;
-    font-size: 22px;
+    font-size: 30px;
     color: #202020;
     margin-left: 5px;
+
 }
+
+.btn-custom {
+    background-color: #777777;
+    color: #fff;
+    border: none;
+}
+
+.btn-custom:hover {
+    background-color: #4b4b4b;
+    color: #fff;
+}
+
 
 .login-form {
     margin: 74px auto;
@@ -72,7 +91,7 @@ header img {
     margin: 10px 0;
     color: #ccc;
     text-decoration: none;
-      cursor: pointer;
+    cursor: pointer;
 }
 
 #forgot-password:hover {
@@ -160,56 +179,57 @@ header img {
 }
 
 .password-reset-form {
-  background-color: #474747;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  width: 495px;
-  text-align: center;
-  margin: 66px auto;
-  color: #ffffff;
+    background-color: #474747;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 495px;
+    text-align: center;
+    margin: 66px auto;
+    color: #ffffff;
 }
 
 .password-reset-form h2 {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 .password-reset-form p {
-  font-size: 14px;
-  margin-bottom: 20px;
-  color: #d1d1d1;
+    font-size: 14px;
+    margin-bottom: 20px;
+    color: #d1d1d1;
 }
 
 .password-reset-form input[type="email"] {
     width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
-  border-radius: 5px;
-  border: 1px solid #444;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #444;
     background: #555;
 }
+
 .password-reset-form input::placeholder {
     color: #ccc;
 }
 
 .password-reset-form .buttons {
-  display: flex;
-  justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
 }
 
 .password-reset-form .back-button,
 .password-reset-form .submit-button {
-  background-color: #333;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 .password-reset-form .back-button:hover,
 .password-reset-form .submit-button:hover {
-  background-color: #555;
+    background-color: #555;
 }
 
 
@@ -218,7 +238,7 @@ footer {
     justify-content: space-around;
     align-items: flex-start;
     background-color: #1e1e1e;
-    width: 1536px;
+    width: 100%; /* Изменено с фиксированной ширины на 100% */
     height: auto;
     color: #fff;
     padding: 20px 0;
@@ -256,4 +276,136 @@ footer {
 
 .contact-us h3 {
     margin-top: 0;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-left: auto;
+
+}
+.username {
+    margin-left: 10px;
+    color: #fff;
+    font-size: 16px;
+}
+
+
+.profile-pic {
+    border-radius: 50%;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.profile-menu {
+    width: 165px;
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background-color: #474747;
+    border: 1px solid #333;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.profile:hover .profile-menu {
+    display: flex;
+}
+
+.profile-menu button {
+    padding: 10px;
+    background: none;
+    border: none;
+    color: #fff;
+    text-align: left;
+    cursor: pointer;
+}
+
+.profile-menu button:hover {
+    background-color: #383838;
+}
+.sidebar {
+    width: 400px;
+    background-color: #3a3a3a;
+    color: #fff;
+    overflow-y: auto;
+}
+
+.contact-pic {
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.contact-info {
+    flex: 1;
+}
+
+.last-message {
+    font-size: 12px;
+    color: #ccc;
+}
+
+.chat-window {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #2e2e2e;
+}
+
+.messages {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.message {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.message.own {
+    justify-content: flex-end;
+}
+
+.message-pic {
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.message.own .message-pic {
+    margin-left: 10px;
+    margin-right: 0;
+}
+
+.message-text {
+    background-color: #474747;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 60%;
+}
+
+.message.own .message-text {
+    background-color: #737373;
+}
+
+.message-input {
+    padding: 10px;
+    background-color: #333;
+}
+
+.chat-app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.chat-body {
+    display: flex;
+    flex: 1;
 }

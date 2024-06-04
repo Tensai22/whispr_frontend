@@ -1,21 +1,20 @@
 import './App.css';
-import RegisterForm from "./register/RegisterForm";
 import * as ReactRouterDOM from "react-router-dom";
 import Chat from "./chatting/Chat";
-import MainPage from './components/MainPage';
-import LoginForm from "./register/LoginForm";
-import Register from "./components/RegisterPage";
-import ForgotPasswordPage from "./components/ForgotPasswordPage";
+import Login from './authorization/Login';
+import Register from "./authorization/Registration";
+import ForgotPasswordPage from "./authorization/ResetPassword";
 import Messenger from "./chatting/Messenger";
+import ChatDesign from "./components/ChatDesign";
 
 const Router = ReactRouterDOM.BrowserRouter;
 const Route = ReactRouterDOM.Route;
 const Routes = ReactRouterDOM.Routes;
 
-const main_page = () => {
+const welcome_page = () => {
     return (
         <div>
-            MAIN PAGE
+            Welcome to Whispr app!
         </div>
     )
 }
@@ -24,14 +23,15 @@ const App = () => {
     return (
         <Router>
             <Routes>
-                <Route path="/" element={main_page()}/>
-                <Route path="/login" element={<LoginForm/>}/>
-                <Route path="/registration" element={<RegisterForm/>}/>
+                <Route path="/" element={welcome_page()}/>
+                {/*Authorization*/}
+                <Route path="/login" element={<Login/>}/>
+                <Route path="/registration" element={<Register/>}/>
+                <Route path="/reset_password" element={<ForgotPasswordPage/>}/>
+                {/*Chat*/}
                 <Route path="/chat" element={<Chat/>}/>
-                <Route path="/1" element={<MainPage/>}/>
-                <Route path="/register" element={<Register/>} />
-                <Route path="/forgotpassword" element={<ForgotPasswordPage/>}/>
-                <Route path="/message" element={<Messenger/>}/>
+                <Route path="/chatdesign" element={<ChatDesign/>}>
+                </Route>
             </Routes>
         </Router>
     );
