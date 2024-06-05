@@ -2,7 +2,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: stretch; /* Изменено с center на stretch */
+    align-items: stretch;
     height: 100vh;
     background-color: #2e2e2e;
     margin: 0;
@@ -238,7 +238,7 @@ footer {
     justify-content: space-around;
     align-items: flex-start;
     background-color: #1e1e1e;
-    width: 100%; /* Изменено с фиксированной ширины на 100% */
+    width: 100%;
     height: auto;
     color: #fff;
     padding: 20px 0;
@@ -283,7 +283,9 @@ footer {
     align-items: center;
     justify-content: center;
     text-align: center;
-    margin: auto;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .community-pic {
@@ -293,6 +295,7 @@ footer {
 }
 
 .community-name {
+    font-family: cursive;
     font-size: 18px;
     color: #fff;
 }
@@ -427,4 +430,8 @@ footer {
 .chat-body {
     display: flex;
     flex: 1;
+}
+
+input[type="file"] {
+    display: none; /* Hide file input by default */
 }
