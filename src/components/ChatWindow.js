@@ -1,6 +1,5 @@
-// ChatWindow.js
 import React from 'react';
-import '../css/log_reg.css';
+import '../css/chat.css';
 import { Form, Button, InputGroup, FormControl } from 'react-bootstrap';
 
 const ChatWindow = () => {

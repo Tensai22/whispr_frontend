@@ -1,6 +1,6 @@
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../css/log_reg.css';
+import '../css/chat.css';
 import ChatHeader from "./ChatHeader";
 import ChatWindow from "./ChatWindow";
 import Sidebar from "./Sidebar";

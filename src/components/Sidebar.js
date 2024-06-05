@@ -1,5 +1,5 @@
 import React from 'react';
-import '../css/log_reg.css';
+import '../css/chat.css';
 import { ListGroup, InputGroup, FormControl } from 'react-bootstrap';
 
 const Sidebar = () => {

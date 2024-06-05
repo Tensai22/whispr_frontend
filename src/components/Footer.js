@@ -1,6 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../css/log_reg.css';
+import '../css/footer.css';
 
 const Footer = () => {
 

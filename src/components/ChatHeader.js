@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import defaultProfilePic from '../assets/Cat_logo_by_khngldi.png';
 import defaultCommunityPic from '../assets/communityPic.png';
-import '../css/log_reg.css';
+import '../css/chat.css';
+import '../css/header.css'
 
 const ChatHeader = ({ username, communityname }) => {
     const [profilePic, setProfilePic] = useState(defaultProfilePic);

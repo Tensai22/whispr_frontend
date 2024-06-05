@@ -1,0 +1,185 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+    height: 100vh;
+    background-color: #2e2e2e;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.btn-custom {
+    background-color: #777777;
+    color: #fff;
+    border: none;
+}
+
+.btn-custom:hover {
+    background-color: #4b4b4b;
+    color: #fff;
+}
+
+.community {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.community-pic {
+    height: 50px;
+    width: auto;
+    margin-right: 10px;
+}
+
+.community-name {
+    font-family: cursive;
+    font-size: 18px;
+    color: #fff;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-left: auto;
+
+}
+.username {
+    margin-left: 10px;
+    color: #fff;
+    font-size: 16px;
+}
+
+
+.profile-pic {
+    border-radius: 50%;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.profile-menu {
+    width: 165px;
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background-color: #474747;
+    border: 1px solid #333;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.profile:hover .profile-menu {
+    display: flex;
+}
+
+.profile-menu button {
+    padding: 10px;
+    background: none;
+    border: none;
+    color: #fff;
+    text-align: left;
+    cursor: pointer;
+}
+
+.profile-menu button:hover {
+    background-color: #383838;
+}
+.sidebar {
+    width: 400px;
+    background-color: #3a3a3a;
+    color: #fff;
+    overflow-y: auto;
+}
+
+.contact-pic {
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.contact-info {
+    flex: 1;
+}
+
+.last-message {
+    font-size: 12px;
+    color: #ccc;
+}
+
+.chat-window {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #2e2e2e;
+}
+
+.messages {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.message {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.message.own {
+    justify-content: flex-end;
+}
+
+.message-pic {
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.message.own .message-pic {
+    margin-left: 10px;
+    margin-right: 0;
+}
+
+.message-text {
+    background-color: #474747;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 60%;
+}
+
+.message.own .message-text {
+    background-color: #737373;
+}
+
+.message-input {
+    padding: 10px;
+    background-color: #333;
+}
+
+.chat-app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.chat-body {
+    display: flex;
+    flex: 1;
+}
+
+input[type="file"] {
+    display: none; /* Hide file input by default */
+}
