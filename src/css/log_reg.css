@@ -73,7 +73,7 @@ header img {
 }
 
 .login-form input {
-    width: calc(100% + 10px);
+    width: 100%;
     padding: 10px;
     margin: 10px 0;
     border: 1px solid #444;
@@ -140,7 +140,7 @@ header img {
 }
 
 .registration-form input {
-    width: calc(100% + 10px);
+    width: 100%;
     padding: 10px;
     border: 1px solid #444;
     border-radius: 5px;
@@ -276,6 +276,25 @@ footer {
 
 .contact-us h3 {
     margin-top: 0;
+}
+
+.community {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: auto;
+}
+
+.community-pic {
+    height: 40px;
+    width: auto;
+    margin-right: 10px;
+}
+
+.community-name {
+    font-size: 18px;
+    color: #fff;
 }
 
 .profile {
