@@ -44,7 +44,7 @@ const ChangeProfilePasswordForm = () => {
     }
 
     const goBack = () => {
-        navigate('/login');
+        navigate('');
     };
 
     return (
