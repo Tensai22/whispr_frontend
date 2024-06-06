@@ -36,7 +36,6 @@ const App = () => {
                 <Route path="/changepassword" element={<ChangePassword/>}/>
                 <Route path="/welcomepage" element={<WelcomePage/>}/>
                 <Route path="/changeprofilepassword" element={<ChangeProfilePasswordForm/>}/>
-                <Route path="/changeresetpassword" element={<ChangePasswordForm/>}/>
             </Routes>
         </Router>
     );
