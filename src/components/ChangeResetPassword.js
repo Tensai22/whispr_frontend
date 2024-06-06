@@ -52,7 +52,7 @@ const ChangePasswordForm = () => {
             <Header/>
         <div className="container d-flex flex-column justify-content-center align-items-center vh-100">
             <div className="change-password-form">
-                <h2>Изменение пароля</h2>
+                <h2>Подтверждения смены пароля</h2>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <input
                         type="password"

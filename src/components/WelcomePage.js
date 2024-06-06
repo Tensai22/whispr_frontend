@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './Header';
 import Footer from './Footer';
 import '../css/welcome_page.css';
-import WhisprLogo from '../assets/Whispr_logo.png';
+import WhisprLogo from '../assets/Whispr_logo_White.png';
 import { useNavigate } from 'react-router-dom';
 
 const WelcomePage = () => {
