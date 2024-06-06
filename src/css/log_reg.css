@@ -152,8 +152,43 @@ body {
     color: #d1d1d1;
 }
 
-.password-reset-form input[type="email"] {
+.password-reset-form .form-control {
     width: 100%;
+    display: inline-block;
+    background: #545454;
+    border-radius: 5px;
+    border: 1px solid #444;
+    padding: 10px;
+}
+
+.password-reset-form .email-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.password-reset-form .send-code-button {
+    background-color: #737373;
+    color: #ffffff;
+    border: none;
+    height: 45px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: auto;
+    padding: initial;
+}
+
+.password-reset-form .send-code-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.password-reset-form input::placeholder {
+    color: #ccc;
+}
+
+.password-reset-form input[type="email"] {
+    width: 75%;
     padding: 10px;
     margin-bottom: 20px;
     border-radius: 5px;
@@ -170,6 +205,13 @@ body {
     justify-content: space-between;
 }
 
+.password-reset-form .btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
 .password-reset-form .back-button,
 .password-reset-form .submit-button {
     background-color: #333;
@@ -183,4 +225,20 @@ body {
 .password-reset-form .back-button:hover,
 .password-reset-form .submit-button:hover {
     background-color: #555;
+}
+
+.password-reset-form .btn-primary {
+    background-color: #4e8aff;
+    color: white;
+}
+
+.password-reset-form .btn-secondary {
+    background-color: #383838;
+    color: white;
+}
+
+.password-reset-form .alert {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5px;
 }
