@@ -1,12 +1,12 @@
 import './App.css';
-import RegisterForm from "./register/RegisterForm";
 import * as ReactRouterDOM from "react-router-dom";
 import Chat from "./chatting/Chat";
-import MainPage from './components/MainPage';
-import LoginForm from "./register/LoginForm";
-import Register from "./components/RegisterPage";
-import ForgotPasswordPage from "./components/ForgotPasswordPage";
-import Messenger from "./chatting/Messenger";
+import Login from './authorization/Login';
+import Register from "./authorization/Registration";
+import ForgotPasswordPage from "./authorization/ResetPassword";
+import ChatDesign from "./components/ChatDesign";
+import ChangePassword from "./components/ChangePassword";
+import WelcomePage from "./components/WelcomePage";
 
 const Router = ReactRouterDOM.BrowserRouter;
 const Route = ReactRouterDOM.Route;
@@ -25,13 +25,13 @@ const App = () => {
         <Router>
             <Routes>
                 <Route path="/" element={main_page()}/>
-                <Route path="/login" element={<LoginForm/>}/>
-                <Route path="/registration" element={<RegisterForm/>}/>
                 <Route path="/chat" element={<Chat/>}/>
-                <Route path="/1" element={<MainPage/>}/>
-                <Route path="/register" element={<Register/>} />
-                <Route path="/forgotpassword" element={<ForgotPasswordPage/>}/>
-                <Route path="/message" element={<Messenger/>}/>
+                <Route path="/registration" element={<Register/>} />
+                <Route path="/reset_password" element={<ForgotPasswordPage/>}/>
+                <Route path="/chatdesign" element={<ChatDesign/>}></Route>
+                <Route path="/login" element={<Login/>}></Route>
+                <Route path="/changepassword" element={<ChangePassword/>}></Route>
+                                <Route path="/welcomepage" element={<WelcomePage/>}></Route>
             </Routes>
         </Router>
     );

@@ -11,8 +11,6 @@ const PasswordResetForm = () => {
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const {register, handleSubmit, formState: {errors}, reset} = useForm();
-    const [emailSent, setEmailSent] = useState(false);
-
 
     const onSubmit = async (data) => {
         try {
@@ -22,7 +20,6 @@ const PasswordResetForm = () => {
                 }
             });
             reset()
-            setEmailSent(true);
             setSuccessMessage("Вам было отправлена ссылка для сброса пароля!");
         } catch (error) {
             console.log(error);
@@ -45,10 +42,6 @@ const PasswordResetForm = () => {
         return cookieValue;
     }
 
-        const handleSendCode = () => {
-        alert("Код отправлен на вашу электронную почту!");
-        setEmailSent(true);
-    };
 
     const goLogin = () => {
         navigate('/login')
@@ -66,7 +59,6 @@ const PasswordResetForm = () => {
                     "Нежелательная почта".
                 </p>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="email-container">
                     <input type="email" className="form-control mb-3" placeholder="Эл.почта..." required name="email"
                            {...register('email', {
                                required: 'Email is required',
@@ -75,32 +67,10 @@ const PasswordResetForm = () => {
                                    message: 'Invalid email address'
                                }
                            })}/>
-                    <button
-                            type="button"
-                            className="send-code-button"
-                            onClick={handleSendCode}
-                            disabled={emailSent}
-                        >
-                            Отправить код
-                    </button>
-                        </div>
                     {errors.email && <span>{errors.email.message}</span>}
-                    <input
-                        type="text"
-                        className="form-control mb-3"
-                        placeholder="Введите код..."
-                        required
-                        name="code"
-                        disabled={!emailSent}
-                        {...register('code', {
-                            required: 'Code is required',
-                            validate: value => value.length === 6 || 'Code must be 6 digits'
-                        })}
-                    />
-                    {errors.code && <span>{errors.code.message}</span>}
                     <div className="d-flex justify-content-between">
                         <button type="button" className="btn btn-secondary" onClick={goLogin}>Назад</button>
-                        <button type="submit" className="btn btn-primary">Подтвердить</button>
+                        <button type="submit" className="btn btn-primary">Отправить</button>
                         {successMessage && <div>{successMessage}</div>}
                         {errorMessage && <div>{errorMessage}</div>}
                     </div>
