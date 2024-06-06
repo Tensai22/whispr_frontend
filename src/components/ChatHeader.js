@@ -47,6 +47,7 @@ const ChatHeader = ({ username, communityname }) => {
                 <input type="file" onChange={handleProfilePicChange} accept="image/*" />
                 <div className="profile-menu">
                     <button>Сменить картинку</button>
+                    <button>Сменить пароль</button>
                     <button>Выход</button>
                 </div>
             </div>
