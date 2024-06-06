@@ -8,8 +8,6 @@ import ChatDesign from "./components/ChatDesign";
 import ChangePassword from "./components/ChangeResetPassword";
 import WelcomePage from "./components/WelcomePage";
 import ChangeProfilePasswordForm from "./components/ChangeProfilePassword";
-import ChangeResetPassword from "./components/ChangeResetPassword";
-import ChangePasswordForm from "./components/ChangeResetPassword";
 
 const Router = ReactRouterDOM.BrowserRouter;
 const Route = ReactRouterDOM.Route;
