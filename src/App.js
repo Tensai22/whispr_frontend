@@ -8,6 +8,8 @@ import ChatDesign from "./components/ChatDesign";
 import ChangePassword from "./components/ChangeResetPassword";
 import WelcomePage from "./components/WelcomePage";
 import ChangeProfilePasswordForm from "./components/ChangeProfilePassword";
+import ChangeResetPassword from "./components/ChangeResetPassword";
+import ChangePasswordForm from "./components/ChangeResetPassword";
 
 const Router = ReactRouterDOM.BrowserRouter;
 const Route = ReactRouterDOM.Route;
@@ -34,6 +36,7 @@ const App = () => {
                 <Route path="/changepassword" element={<ChangePassword/>}/>
                 <Route path="/welcomepage" element={<WelcomePage/>}/>
                 <Route path="/changeprofilepassword" element={<ChangeProfilePasswordForm/>}/>
+                <Route path="/changeresetpassword" element={<ChangePasswordForm/>}/>
             </Routes>
         </Router>
     );
