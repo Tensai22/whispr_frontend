@@ -11,6 +11,7 @@ const WelcomePage = () => {
     const handleLogin = () => {
         navigate('/login');
     };
+
     const handleRegister = () => {
         navigate('/registration');
     };

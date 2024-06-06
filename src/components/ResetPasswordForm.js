@@ -26,7 +26,6 @@ const PasswordResetForm = () => {
             setErrorMessage("Ошибка отправки запрос на сброс пароля!");
         }
     };
-
     function getCookie(name) {
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {

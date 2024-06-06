@@ -91,5 +91,4 @@ const ChangePasswordForm = () => {
         </div>
     );
 };
-
 export default ChangePasswordForm;

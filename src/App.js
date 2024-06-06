@@ -28,10 +28,10 @@ const App = () => {
                 <Route path="/chat" element={<Chat/>}/>
                 <Route path="/registration" element={<Register/>} />
                 <Route path="/reset_password" element={<ForgotPasswordPage/>}/>
-                <Route path="/chatdesign" element={<ChatDesign/>}></Route>
-                <Route path="/login" element={<Login/>}></Route>
-                <Route path="/changepassword" element={<ChangePassword/>}></Route>
-                                <Route path="/welcomepage" element={<WelcomePage/>}></Route>
+                <Route path="/chatdesign" element={<ChatDesign/>}/>
+                <Route path="/login" element={<Login/>}/>
+                <Route path="/changepassword" element={<ChangePassword/>}/>
+                <Route path="/welcomepage" element={<WelcomePage/>}/>
             </Routes>
         </Router>
     );
