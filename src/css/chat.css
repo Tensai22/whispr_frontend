@@ -26,28 +26,6 @@ body {
     color: #fff;
 }
 
-.community {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.community-pic {
-    height: 50px;
-    width: auto;
-    margin-right: 10px;
-}
-
-.community-name {
-    font-family: cursive;
-    font-size: 18px;
-    color: #fff;
-}
-
 .profile {
     display: flex;
     align-items: center;

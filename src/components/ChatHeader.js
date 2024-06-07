@@ -36,11 +36,6 @@ const ChatHeader = ({ username, communityname }) => {
                 <img src={require("../assets/Whispr_logo.png")} alt="Whispr" />
                 <span className="logo-text">Whispr</span>
             </div>
-            <div className="community">
-                <img src={communityPic} alt="Community" className="community-pic" />
-                <span className="community-name">{communityname}</span>
-                <input type="file" onChange={handleCommunityPicChange} accept="image/*" />
-            </div>
             <div className="profile">
                 <span className="username">{username}</span>
                 <img src={profilePic} alt="Profile" className="profile-pic" />
