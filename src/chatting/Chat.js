@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from "react";
+import MessageList from "./MessageList";
+import SendMessage from "./SendMessage";
 
 const Chat = () => {
     const [messages, setMessages] = useState([]);
@@ -27,7 +28,7 @@ const Chat = () => {
             const response = await axios.post('http://localhost:8000/api/send_message/', {
                 text: newMessage
             }, {
-                withCredentials: true
+                withCredentials: true  // Включение сессионных куки
             });
             setMessages([response.data, ...messages]);
             setNewMessage('');
