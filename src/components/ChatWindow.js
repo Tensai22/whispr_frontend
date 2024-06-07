@@ -12,7 +12,7 @@ const ChatWindow = () => {
 
     useEffect(() => {
         fetchMessages();
-        const interval = setInterval(fetchMessages, 5000);
+        const interval = setInterval(fetchMessages, 15000);
         return () => clearInterval(interval);
     }, []);
 
@@ -34,7 +34,7 @@ const ChatWindow = () => {
             }, {
                 withCredentials: true
             });
-            setMessages([response.data, ...messages].reverse());
+            setMessages([response.data, ...messages]);
             setNewMessage('');
         } catch (error) {
             console.error('Error sending message:', error);
