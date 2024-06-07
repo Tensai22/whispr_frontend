@@ -26,14 +26,13 @@ const App = () => {
     return (
         <Router>
             <Routes>
-                <Route path="/" element={main_page()}/>
+                <Route path="/" element={<WelcomePage/>}/>
                 <Route path="/chat" element={<ChatDesign/>}/>
                 <Route path="/registration" element={<Register/>} />
                 <Route path="/reset_password" element={<ForgotPasswordPage/>}/>
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/logout" element={<LogoutButton/>} />
                 <Route path="/changepassword" element={<ChangePassword/>}/>
-                <Route path="/welcomepage" element={<WelcomePage/>}/>
                 <Route path="/changeprofilepassword" element={<ChangeProfilePasswordForm/>}/>
                 <Route path="/reset/:uidb64/:token" element={<ChangeResetPassword/>} />
             </Routes>
