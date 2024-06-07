@@ -1,13 +1,12 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/log_reg.css';
-import {useForm} from "react-hook-form";
+import { useForm } from "react-hook-form";
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 
 const RegisterForm = () => {
-    const {register, handleSubmit, watch, formState: {errors}, reset} = useForm();
+    const { register, handleSubmit, watch, formState: { errors }, reset } = useForm();
     const password = watch('password');
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
@@ -29,30 +28,31 @@ const RegisterForm = () => {
     }
 
     const goLogin = () => {
-        navigate('/login')
+        navigate('/login');
     };
 
     const onSubmit = async (data) => {
-    try {
-        const csrftoken = getCookie('csrftoken');
-        const response = await axios.post('http://localhost:8000/api/register/', data, {
-            headers: {
-                'X-CSRFToken': csrftoken,
+        try {
+            const csrftoken = getCookie('csrftoken');
+            const response = await axios.post('http://localhost:8000/api/register/', data, {
+                headers: {
+                    'X-CSRFToken': csrftoken,
+                },
+                withCredentials: true  // Включение сессионных куки
+            });
+            setSuccessMessage('Успешная регистрация');
+            setErrorMessage('');
+            reset();
+            navigate('/chat');
+        } catch (error) {
+            console.error('Error:', error);
+            if (error.response && error.response.data) {
+                setErrorMessage(error.response.data.error || 'Ошибка при регистрации');
+            } else {
+                setErrorMessage('Ошибка при регистрации');
             }
-        });
-        setSuccessMessage('Успешная регистрация');
-        setErrorMessage('');
-        reset();
-        navigate('/chat');
-    } catch (error) {
-        console.error('Error:', error);
-        if (error.response && error.response.data) {
-            setErrorMessage(error.response.data.error || 'Ошибка при регистрации');
-        } else {
-            setErrorMessage('Ошибка при регистрации');
         }
-    }
-};
+    };
 
     return (
         <div className="container d-flex flex-column justify-content-center align-items-center vh-100">
