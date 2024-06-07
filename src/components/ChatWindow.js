@@ -3,10 +3,12 @@ import '../css/chat.css';
 import {Form, Button, InputGroup, FormControl} from 'react-bootstrap';
 import axios from "axios";
 
+
 const ChatWindow = () => {
 
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
+
 
     useEffect(() => {
         fetchMessages();
@@ -17,9 +19,9 @@ const ChatWindow = () => {
     const fetchMessages = async () => {
         try {
             const response = await axios.get('http://localhost:8000/api/get_messages/', {
-                withCredentials: true  // Включение сессионных куки
+                withCredentials: true
             });
-            setMessages(response.data.messages);
+            setMessages(response.data.messages.reverse());
         } catch (error) {
             console.error('Error fetching messages:', error);
         }
@@ -30,14 +32,16 @@ const ChatWindow = () => {
             const response = await axios.post('http://localhost:8000/api/send_message/', {
                 text: newMessage
             }, {
-                withCredentials: true  // Включение сессионных куки
+                withCredentials: true
             });
-            setMessages([response.data, ...messages]);
+            setMessages([response.data, ...messages].reverse());
             setNewMessage('');
         } catch (error) {
             console.error('Error sending message:', error);
         }
     };
+
+
 
 
     return (
