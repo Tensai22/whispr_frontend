@@ -55,20 +55,22 @@ const ChangeProfilePasswordForm = () => {
                     <h2>Изменение пароля</h2>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <input
+                            name="old_password"
                             type="password"
                             className="form-control mb-3"
                             placeholder="Введите старый пароль..."
-                            {...register('oldPassword', {
+                            {...register('old_password', {
                                 required: 'Старый пароль обязателен'
                             })}
                         />
-                        {errors.oldPassword && <span className="text-danger">{errors.oldPassword.message}</span>}
+                        {errors.old_password && <span className="text-danger">{errors.old_password.message}</span>}
 
                         <input
+                            name="new_password"
                             type="password"
                             className="form-control mb-3"
                             placeholder="Введите новый пароль..."
-                            {...register('newPassword', {
+                            {...register('new_password', {
                                 required: 'Новый пароль обязателен',
                                 minLength: {
                                     value: 8,
@@ -76,19 +78,20 @@ const ChangeProfilePasswordForm = () => {
                                 }
                             })}
                         />
-                        {errors.newPassword && <span className="text-danger">{errors.newPassword.message}</span>}
+                        {errors.new_password && <span className="text-danger">{errors.new_password.message}</span>}
 
                         <input
+                            name="confirm_new_password"
                             type="password"
                             className="form-control mb-3"
                             placeholder="Подтвердите пароль..."
-                            {...register('confirmPassword', {
+                            {...register('confirm_new_password', {
                                 required: 'Подтверждение пароля обязательно',
                                 validate: value =>
-                                    value === watch('newPassword') || 'Пароли не совпадают'
+                                    value === watch('new_password') || 'Пароли не совпадают'
                             })}
                         />
-                        {errors.confirmPassword && <span className="text-danger">{errors.confirmPassword.message}</span>}
+                        {errors.confirm_new_password && <span className="text-danger">{errors.confirm_new_password.message}</span>}
 
                         <div className="buttons d-flex justify-content-between">
                             <button type="button" className="btn btn-secondary" onClick={goBack}>Назад</button>

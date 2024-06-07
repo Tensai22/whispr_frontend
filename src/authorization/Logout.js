@@ -16,7 +16,7 @@ const LogoutButton = () => {
                 localStorage.removeItem('accessToken');
                 localStorage.removeItem('refreshToken');
 
-                navigate("/login'");
+                navigate("/login");
             }
         } catch (error) {
             console.error('Error logging out:', error);
