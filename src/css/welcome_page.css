@@ -1,6 +1,10 @@
 .welcome-page {
     background-color: #333;
     color: #fff;
+    background-image: url('../assets/chat_background.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .welcome-text {

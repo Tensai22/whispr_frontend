@@ -10,7 +10,7 @@ const ChatDesign = () => {
         <div className="chat-app">
             <ChatHeader />
             <div className="chat-body">
-                {/*<Sidebar />*/}
+                {<Sidebar />}
                 <ChatWindow />
             </div>
         </div>
