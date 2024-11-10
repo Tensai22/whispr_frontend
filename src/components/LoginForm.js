@@ -11,7 +11,7 @@ const LoginForm = () => {
 
     const onSubmit = async (data) => {
         try {
-            const response = await axios.post('https://whispr.ru/api/login/', data);
+            const response = await axios.post('http://localhost:8000/api/login/', data);
             setSuccessMessage("Успешная авторизация");
             reset();
             navigate('/chat');

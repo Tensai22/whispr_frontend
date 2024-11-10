@@ -14,14 +14,6 @@ const Router = ReactRouterDOM.BrowserRouter;
 const Route = ReactRouterDOM.Route;
 const Routes = ReactRouterDOM.Routes;
 
-const main_page = () => {
-    return (
-        <div>
-            MAIN PAGE
-        </div>
-    )
-}
-
 const App = () => {
     return (
         <Router>
