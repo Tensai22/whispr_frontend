@@ -29,8 +29,8 @@ const App = () => {
                 <Route path="/" element={<WelcomePage/>}/>
                 <Route path="/chat" element={<ChatDesign/>}/>
                 <Route path="/registration" element={<Register/>} />
-                <Route path="/reset_password" element={<ForgotPasswordPage/>}/>
                 <Route path="/login" element={<Login/>}/>
+                <Route path="/reset_password" element={<ForgotPasswordPage/>}/>
                 <Route path="/logout" element={<LogoutButton/>} />
                 <Route path="/changepassword" element={<ChangePassword/>}/>
                 <Route path="/changeprofilepassword" element={<ChangeProfilePasswordForm/>}/>
