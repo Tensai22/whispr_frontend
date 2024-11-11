@@ -8,7 +8,6 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
     overflow-x: hidden;
-
 }
 
 * {
@@ -39,7 +38,6 @@ body {
     color: #fff;
     font-size: 16px;
 }
-
 
 .profile-pic {
     border-radius: 50%;
@@ -75,12 +73,6 @@ body {
 
 .profile-menu button:hover {
     background-color: #383838;
-}
-.sidebar {
-    width: 400px;
-    background-color: #3a3a3a;
-    color: #fff;
-    overflow-y: auto;
 }
 
 .contact-pic {
@@ -193,6 +185,13 @@ input[type="file"] {
     margin-bottom: 10px;
 }
 
+.sidebar {
+    width: 400px;
+    background-color: #3a3a3a;
+    color: #fff;
+    overflow-y: auto;
+}
+
 .sidebar .sidebar-header {
     position: relative;
     padding: 10px 10px;
@@ -219,21 +218,22 @@ input[type="file"] {
     cursor: pointer;
     display: flex;
     align-items: center;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.new-chat-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    transform: scale(1.1);
+}
+
+.new-chat-button:hover img {
+    filter: brightness(1.2);
 }
 
 .new-chat-button img {
     width: 40px;
     height: 35px;
-}
-
-.nav-tabs .nav-link {
-    color: #ccc;
-    padding: 10px 0;
-    text-align: center;
-    position: relative;
-    background-color: transparent;
-    flex: 1;
-    transition: background-color 0.3s ease;
 }
 
 .nav-tabs {
@@ -246,10 +246,21 @@ input[type="file"] {
     position: absolute;
 }
 
+.nav-tabs .nav-link {
+    color: #ccc;
+    padding: 10px 0;
+    text-align: center;
+    position: relative;
+    background-color: transparent;
+    flex: 1;
+    transition: background-color 0.3s ease;
+}
+
 .nav-tabs .nav-link.active {
     color: #fff;
     background-color: #3a3a3a;
     border-color: #3a3a3a;
+    width: 100px;
 }
 
 .chat-list .contact-pic {
