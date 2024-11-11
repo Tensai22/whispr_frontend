@@ -228,14 +228,17 @@ input[type="file"] {
 
 .nav-tabs .nav-link {
     color: #ccc;
-    padding: 8px 0;
+    padding: 10px 0;
     text-align: center;
+    position: relative;
+    background-color: transparent;
+    flex: 1;
+    transition: background-color 0.3s ease;
 }
 
 .nav-tabs {
     display: flex;
     justify-content: space-around;
-    margin: 0 15px; /*Бабек осы жерды карап бершы*/
     border-bottom: 1px solid #3a3a3a;
     width: 100%;
     left: 0;
