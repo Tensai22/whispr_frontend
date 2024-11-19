@@ -12,9 +12,10 @@ body {
 }
 .background-cat {
      position: absolute;
-    left: 950px;
+    right: 0;
     bottom: 0;
     height: 440px;
+    width: 37vw;
     pointer-events: none;
 }
 
