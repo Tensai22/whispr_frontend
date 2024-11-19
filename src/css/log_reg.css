@@ -3,11 +3,19 @@ body {
     flex-direction: column;
     justify-content: space-between;
     align-items: stretch;
-    height: 100vh;
+    height: 100%;
     background-color: #2e2e2e;
     margin: 0;
     font-family: Arial, sans-serif;
     overflow-x: hidden;
+    position: relative;
+}
+.background-cat {
+     position: absolute;
+    left: 950px;
+    bottom: 0;
+    height: 440px;
+    pointer-events: none;
 }
 
 .login-form {
