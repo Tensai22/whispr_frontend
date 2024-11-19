@@ -6,6 +6,7 @@ import axios from 'axios';
 import {useNavigate, useParams} from 'react-router-dom';
 import Header from "./Header";
 import Footer from "./Footer";
+import BackgroundCat from "../assets/Background_Cat.png";
 
 const ChangePasswordForm = () => {
     const {uidb64, token} = useParams(); // Получаем параметры из URL
@@ -53,6 +54,9 @@ const ChangePasswordForm = () => {
     return (
         <div>
             <Header/>
+            <div className="background-cat">
+                <img src={BackgroundCat} alt="Background Cat"/>
+            </div>
             <div className="container d-flex flex-column justify-content-center align-items-center vh-100">
                 <div className="change-password-form">
                     <h2>Подтверждения смены пароля</h2>
