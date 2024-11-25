@@ -9,95 +9,56 @@
 
 .welcome-text {
     text-align: center;
+    margin-bottom: 50px;
+    margin-top: 50px;
 }
 
 .welcome-title {
     font-size: 96px;
-    font-family: cursive;
 }
 
 .brand-name {
     font-size: 96px;
-    font-family: cursive;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
+    align-items: center;
 }
 
 .whispr-logo {
     height: 96px;
     margin-right: 10px;
-    justify-content: flex-end;
-    align-items: center;
 }
 
-.vertical-line {
-    border-left: 2px solid #fff;
-    height: 500px;
-    margin: auto;
+.buttons-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 70px;
+}
+
+.btn-login, .btn-registration {
+    color: #fdfdfd;
+    width: 300px;
+    height: 70px;
+    border-radius: 25px;
+    font-size: 24px;
+    transition: background-color 0.3s, opacity 0.3s;
 }
 
 .btn-login {
-    color: #fdfdfd;
     background-color: #4e8aff;
-    border: none;
-    width: 400px;
-    height: 100px;
-    border-radius: 25px;
-    font-size: 48px;
-    transition: background-color 0.3s, opacity 0.3s;
 }
 
-
 .btn-registration {
-    color: #fdfdfd;
     background-color: #737373;
-    border: none;
-    width: 400px;
-    height: 100px;
-    border-radius: 25px;
-    font-size: 48px;
-    transition: background-color 0.3s, opacity 0.3s;
 }
 
 .btn-login:hover, .btn-login:focus {
     background-color: #356acb;
-    opacity: 1;
 }
 
 .btn-registration:hover, .btn-registration:focus {
     background-color: #5c5c5c;
-    opacity: 1;
-}
-
-.btn:active {
-    background-color: #2d2d2d;
-    opacity: 1;
-}
-
-.btn:hover {
-    opacity: 0.8;
-}
-
-.container-fluid {
-    padding: 0;
-}
-
-.min-vh-100 {
-    min-height: 100vh;
-}
-
-.d-flex {
-    display: flex;
-}
-
-.justify-content-between {
-    justify-content: space-between;
-}
-
-.align-items-center {
-    align-items: center;
-}
-
-.flex-grow-1 {
-    flex-grow: 1;
 }
