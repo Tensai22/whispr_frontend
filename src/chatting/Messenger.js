@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../css/log_reg.css';
+import '../css/chat.css';
 
 const Messenger = () => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
@@ -38,36 +38,37 @@ const Messenger = () => {
 
     return (
         <div>
-            <h1>Messenger</h1>
-            <div>
-                <label>Search Users:</label>
+            <div style={{
+                marginBottom: '15px', position: 'relative'
+            }}>
                 <input
                     type="text"
+                    style={{
+                        width: '375px',
+                        padding: '10px',
+                        border: '1px solid #ccc',
+                        borderRadius: '5px',
+                        outline: 'none',
+                        fontSize: '16px'
+                    }}
+                    placeholder="Поиск..."
                     onChange={(e) => searchUsers(e.target.value)}
                 />
-                <ul>
+            <ul style={{ listStyle: 'none', padding: 0 }}>
                     {searchResults.map(user => (
-                        <li key={user.id} onClick={() => setSelectedUser(user)}>
+                        <li key={user.id}
+                        style={{
+                            padding: '10px',
+                            borderBottom: '1px solid #eee',
+                            cursor: 'pointer',
+                            backgroundColor: selectedUser && selectedUser.id === user.id ? '#f0f8ff' : 'white'
+                        }}
+                            onClick={() => setSelectedUser(user)}>
                             {user.username}
                         </li>
                     ))}
                 </ul>
             </div>
-            {selectedUser && (
-                <div>
-                    <h2>Send Message to {selectedUser.username}</h2>
-                    <form onSubmit={handleSubmit(sendMessage)}>
-                        <textarea
-                            name="text"
-                            {...register('text', { required: 'Message is required' })}
-                            value={message}
-                            onChange={(e) => setMessage(e.target.value)}
-                        />
-                        {errors.text && <span>{errors.text.message}</span>}
-                        <button type="submit">Send</button>
-                    </form>
-                </div>
-            )}
         </div>
     );
 };
