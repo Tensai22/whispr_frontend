@@ -70,7 +70,7 @@ const Sidebar = () => {
         </div>
         <h5>Пользователи</h5>
         <ListGroup className="user-list">
-            {/* Здесь список пользователей */}
+            {/* Здесь список пользователей рололо */}
         </ListGroup>
         <Button variant="danger" className="close-menu" onClick={toggleMenu}>Закрыть</Button>
     </div>
