@@ -8,22 +8,34 @@ const ChatWindow = () => {
     const [socket, setSocket] = useState(null);
 
     useEffect(() => {
-        const socket = new WebSocket(`ws://localhost:8000/ws/chat/`);
-        setSocket(socket);
+        // Инициализация WebSocket
+        const ws = new WebSocket(`ws://localhost:8000/ws/chat/`);
+        setSocket(ws);
 
-        socket.onmessage = (event) => {
+        // Обработчики событий
+        ws.onopen = () => {
+            console.log('WebSocket connected');
+        };
+
+        ws.onmessage = (event) => {
             const data = JSON.parse(event.data);
             setMessages((prevMessages) => [...prevMessages, data.message]);
         };
 
-        socket.onclose = () => {
-            console.error('WebSocket closed');
+        ws.onclose = () => {
+            console.log('WebSocket closed');
         };
 
-        return () => socket.close();
+        ws.onerror = (error) => {
+            console.error('WebSocket error:', error);
+        };
+
+        // Очистка соединения при размонтировании компонента
+        return () => ws.close();
     }, []);
 
     useEffect(() => {
+        // Загрузка существующих сообщений через REST API
         const fetchMessages = async () => {
             try {
                 const response = await axios.get('http://localhost:8000/api/get_messages/');
