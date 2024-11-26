@@ -7,6 +7,26 @@ const ChatWindow = () => {
     const [newMessage, setNewMessage] = useState('');
     const [socket, setSocket] = useState(null);
 
+
+
+    socket.onopen = () => {
+        console.log('WebSocket connected');
+    };
+
+    socket.onmessage = (e) => {
+    const data = JSON.parse(e.data);
+        console.log('Message received:', data.message);
+    };
+
+    socket.onclose = () => {
+        console.log('WebSocket closed');
+    };
+
+    socket.onerror = (error) => {
+        console.error('WebSocket error:', error);
+    };
+
+
     useEffect(() => {
         const socket = new WebSocket(`ws://localhost:8000/ws/chat/`);
         setSocket(socket);
