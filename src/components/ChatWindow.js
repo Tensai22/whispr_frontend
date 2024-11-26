@@ -1,36 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import { Form, Button, InputGroup, FormControl } from 'react-bootstrap';
 import axios from 'axios';
 
 const ChatWindow = () => {
-    const { roomName } = useParams(); // roomName из маршрута
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
-    const [socket, setSocket] = useState(null); // Для хранения WebSocket
+    const [socket, setSocket] = useState(null);
 
     useEffect(() => {
-        // Создание WebSocket соединения
-        const newSocket = new WebSocket(`ws://localhost:8000/ws/chat/${roomName}/`);
-        setSocket(newSocket);
+        const socket = new WebSocket(`ws://localhost:8000/ws/chat/`);
+        setSocket(socket);
 
-        newSocket.onmessage = (event) => {
+        socket.onmessage = (event) => {
             const data = JSON.parse(event.data);
             setMessages((prevMessages) => [...prevMessages, data.message]);
         };
 
-        newSocket.onclose = () => {
+        socket.onclose = () => {
             console.error('WebSocket closed');
         };
 
-        return () => newSocket.close(); // Закрытие соединения при размонтировании
-    }, [roomName]);
+        return () => socket.close();
+    }, []);
 
     useEffect(() => {
-        // Загрузка сообщений через REST API
         const fetchMessages = async () => {
             try {
-                const response = await axios.get(`http://localhost:8000/api/get_messages/${roomName}/`);
+                const response = await axios.get('http://localhost:8000/api/get_messages/');
                 setMessages(response.data.messages);
             } catch (error) {
                 console.error('Error fetching messages:', error);
@@ -38,7 +34,7 @@ const ChatWindow = () => {
         };
 
         fetchMessages();
-    }, [roomName]);
+    }, []);
 
     const handleSendMessage = (event) => {
         event.preventDefault();
