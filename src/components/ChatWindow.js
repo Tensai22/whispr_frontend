@@ -1,51 +1,60 @@
 import React, { useEffect, useState } from 'react';
-import '../css/chat.css';
+import { useParams } from 'react-router-dom';
 import { Form, Button, InputGroup, FormControl } from 'react-bootstrap';
-import axios from "axios";
+import axios from 'axios';
 
 const ChatWindow = () => {
-
+    const { roomName } = useParams(); // roomName из маршрута
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
+    const [socket, setSocket] = useState(null); // Для хранения WebSocket
 
     useEffect(() => {
+        // Создание WebSocket соединения
+        const newSocket = new WebSocket(`ws://localhost:8000/ws/chat/${roomName}/`);
+        setSocket(newSocket);
+
+        newSocket.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            setMessages((prevMessages) => [...prevMessages, data.message]);
+        };
+
+        newSocket.onclose = () => {
+            console.error('WebSocket closed');
+        };
+
+        return () => newSocket.close(); // Закрытие соединения при размонтировании
+    }, [roomName]);
+
+    useEffect(() => {
+        // Загрузка сообщений через REST API
+        const fetchMessages = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8000/api/get_messages/${roomName}/`);
+                setMessages(response.data.messages);
+            } catch (error) {
+                console.error('Error fetching messages:', error);
+            }
+        };
+
         fetchMessages();
-    }, []);
+    }, [roomName]);
 
-    const fetchMessages = async () => {
-        try {
-            const response = await axios.get('http://localhost:8000/api/get_messages/', {
-                withCredentials: true
-            });
-            setMessages(response.data.messages.reverse());
-        } catch (error) {
-            console.error('Error fetching messages:', error);
-        }
-    };
-
-    const handleSendMessage = async (event) => {
+    const handleSendMessage = (event) => {
         event.preventDefault();
-        try {
-            const response = await axios.post('http://localhost:8000/api/send_message/', {
-                text: newMessage
-            }, {
-                withCredentials: true
-            });
+        if (newMessage.trim() !== '' && socket) {
+            socket.send(JSON.stringify({ message: newMessage }));
             setNewMessage('');
-            fetchMessages();
-        } catch (error) {
-            console.error('Error sending message:', error);
         }
     };
 
     return (
         <div className="chat-window">
             <div className="messages">
-                {messages.map((msg) => (
-                    <div key={msg.id} className="message">
-                        <img src={require("../assets/default_profile_image.jpeg")} alt="pfp" className="avatar"/>
-                        <strong className="sender">{msg.sender}:{msg.text}</strong>
-                        <em className="send_time">{new Date(msg.timestamp).toLocaleTimeString()}</em>
+                {messages.map((msg, index) => (
+                    <div key={index} className="message">
+                        <strong>{msg.text}</strong>
+                        <em>{new Date(msg.timestamp).toLocaleTimeString()}</em>
                     </div>
                 ))}
             </div>
@@ -57,7 +66,7 @@ const ChatWindow = () => {
                         onChange={(e) => setNewMessage(e.target.value)}
                         placeholder="Напишите сообщение..."
                     />
-                    <Button className="btn-custom" type="submit" variant="primary">Отправить</Button>
+                    <Button type="submit" variant="primary">Отправить</Button>
                 </InputGroup>
             </Form>
         </div>
