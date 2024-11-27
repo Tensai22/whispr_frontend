@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import '../css/chat.css';
 import { ListGroup, InputGroup, FormControl, Nav, Button } from 'react-bootstrap';
 import Messenger from "../chatting/Messenger";
+import {useForm} from "react-hook-form";
+import axios from "axios";
 
 const Sidebar = () => {
     const [activeTab, setActiveTab] = useState('chats');
@@ -13,8 +15,23 @@ const Sidebar = () => {
     const [groupName, setGroupName] = useState('');
     const [groupDescription, setGroupDescription] = useState('');
     const users = ['Пользователь 1', 'Пользователь 2', 'Пользователь 3'];
+    const { register, handleSubmit, formState: { errors }, reset } = useForm();
+    const [searchResults, setSearchResults] = useState([]);
+    const [selectedUser, setSelectedUser] = useState(null);
 
     const handleTabSelect = (tab) => setActiveTab(tab);
+
+    const searchUsers = async (query) => {
+        try {
+            const response = await axios.get(`http://localhost:8000/api/search_users/?q=${query}`);
+            console.log('Search response:', response.data); // Debugging line
+            const results = Array.isArray(response.data) ? response.data : [];
+            setSearchResults(results);
+        } catch (error) {
+            console.error('Error searching users:', error);
+            setSearchResults([]);
+        }
+    };
 
     const toggleMenu = () => {
         setShowMenu(!showMenu);
@@ -52,8 +69,19 @@ const Sidebar = () => {
                             <img src={require("../assets/New_chat.png")} alt="Новый чат" />
                         </button>
                         <InputGroup className="mb-3">
-                            <Messenger/>
-                        </InputGroup>
+                            <input
+                                type="text"
+                                style={{
+                                    width: '375px',
+                                    padding: '10px',
+                                    border: '1px solid #ccc',
+                                    borderRadius: '5px',
+                                    outline: 'none',
+                                    fontSize: '16px'
+                                }}
+                                placeholder="Поиск..."
+                                onChange={(e) => searchUsers(e.target.value)}
+                            />                        </InputGroup>
                         <Nav variant="tabs" defaultActiveKey="chats" onSelect={handleTabSelect}>
                             <Nav.Item>
                                 <Nav.Link eventKey="chats">Чат</Nav.Link>
@@ -69,7 +97,32 @@ const Sidebar = () => {
                     <ListGroup className="chat-list">
                         {activeTab === 'chats' && (
                             <>
-                                {/* Список чатов */}
+                                <ul
+                                    style={{
+                                        listStyle: 'none',
+                                        margin: 0,
+                                        padding: 0,
+                                        maxHeight: 'inherit',
+                                        overflowY: 'auto',
+                                        backgroundColor: '#383838',
+                                    }}
+                                >
+                                    {searchResults.map(user => (
+                                        <li
+                                            key={user.id}
+                                            style={{
+                                                padding: '10px',
+                                                borderBottom: '1px solid #232323',
+                                                cursor: 'pointer',
+                                                backgroundColor:
+                                                    selectedUser && selectedUser.id === user.id ? '#474747' : '#383838',
+                                            }}
+                                            onClick={() => setSelectedUser(user)}
+                                        >
+                                            {user.username}
+                                        </li>
+                                    ))}
+                                </ul>
                             </>
                         )}
                     </ListGroup>
