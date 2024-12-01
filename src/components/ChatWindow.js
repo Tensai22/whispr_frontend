@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Form, Button, InputGroup, FormControl } from 'react-bootstrap';
 import axios from 'axios';
 
@@ -6,60 +6,43 @@ const ChatWindow = () => {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
     const [socket, setSocket] = useState(null);
-
-
-
-    socket.onopen = () => {
-        console.log('WebSocket connected');
-    };
-
-    socket.onmessage = (e) => {
-    const data = JSON.parse(e.data);
-        console.log('Message received:', data.message);
-    };
-
-    socket.onclose = () => {
-        console.log('WebSocket closed');
-    };
-
-    socket.onerror = (error) => {
-        console.error('WebSocket error:', error);
-    };
-
+    const [username, setUsername] = useState(localStorage.getItem('username') || 'guest');
+    const messagesEndRef = useRef(null);
 
     useEffect(() => {
-        // Инициализация WebSocket
-        const ws = new WebSocket(`ws://localhost:8000/ws/chat/`);
+        const ws = new WebSocket('ws://localhost:8000/ws/chat/');
         setSocket(ws);
 
-        // Обработчики событий
         ws.onopen = () => {
-            console.log('WebSocket connected');
+            console.log('Connected to WebSocket!');
         };
 
         ws.onmessage = (event) => {
             const data = JSON.parse(event.data);
-            setMessages((prevMessages) => [...prevMessages, data.message]);
+            setMessages(prevMessages => [...prevMessages, data.message]);
         };
 
         ws.onclose = () => {
-            console.log('WebSocket closed');
+            console.log('Disconnected from WebSocket!');
+            setSocket(null);
         };
 
         ws.onerror = (error) => {
             console.error('WebSocket error:', error);
         };
 
-        // Очистка соединения при размонтировании компонента
-        return () => ws.close();
+        return () => {
+            if (socket) {
+                socket.close();
+            }
+        };
     }, []);
 
     useEffect(() => {
-        // Загрузка существующих сообщений через REST API
         const fetchMessages = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/api/get_messages/');
-                setMessages(response.data.messages);
+                const response = await axios.get('http://localhost:8000/chat/get_messages/');
+                setMessages(response.data);
             } catch (error) {
                 console.error('Error fetching messages:', error);
             }
@@ -68,10 +51,21 @@ const ChatWindow = () => {
         fetchMessages();
     }, []);
 
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages]);
+
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
+
     const handleSendMessage = (event) => {
         event.preventDefault();
         if (newMessage.trim() !== '' && socket) {
-            socket.send(JSON.stringify({ message: newMessage }));
+            socket.send(JSON.stringify({
+                username: username,
+                message: newMessage
+            }));
             setNewMessage('');
         }
     };
@@ -79,22 +73,24 @@ const ChatWindow = () => {
     return (
         <div className="chat-window">
             <div className="messages">
-                {messages.map((msg, index) => (
-                    <div key={index} className="message">
-                        <strong>{msg.text}</strong>
-                        <em>{new Date(msg.timestamp).toLocaleTimeString()}</em>
+                {messages.map(msg => (
+                    <div key={msg.id} className="message">
+                        <strong>{msg.username}: </strong>
+                        <span>{msg.message}</span>
+                        <em> {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</em>
                     </div>
                 ))}
+                <div ref={messagesEndRef} />
             </div>
-            <Form className="message-input" onSubmit={handleSendMessage}>
+            <Form onSubmit={handleSendMessage}>
                 <InputGroup>
                     <FormControl
                         type="text"
                         value={newMessage}
-                        onChange={(e) => setNewMessage(e.target.value)}
-                        placeholder="Напишите сообщение..."
+                        onChange={e => setNewMessage(e.target.value)}
+                        placeholder="Введите сообщение..."
                     />
-                    <Button type="submit" variant="primary">Отправить</Button>
+                    <Button type="submit">Отправить</Button>
                 </InputGroup>
             </Form>
         </div>
