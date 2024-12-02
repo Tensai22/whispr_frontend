@@ -7,17 +7,36 @@ import axios from "axios";
 
 const Sidebar = () => {
     const [activeTab, setActiveTab] = useState('chats');
+
     const [showMenu, setShowMenu] = useState(false);
+
     const [isCreatingGroup, setIsCreatingGroup] = useState(false);
     const [groupStep, setGroupStep] = useState(1);
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [groupPhoto, setGroupPhoto] = useState(require('../assets/communityPic.png'));
     const [groupName, setGroupName] = useState('');
     const [groupDescription, setGroupDescription] = useState('');
-    const users = ['Пользователь 1', 'Пользователь 2', 'Пользователь 3'];
+
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const [searchResults, setSearchResults] = useState([]);
     const [selectedUser, setSelectedUser] = useState(null);
+
+    const [isCreatingCommunity, setIsCreatingCommunity] = useState(false);
+    const [communityStep, setCommunityStep] = useState(1);
+    const [communityName, setCommunityName] = useState('');
+    const [communityDescription, setCommunityDescription] = useState('');
+    const [communityPhoto, setCommunityPhoto] = useState(require('../assets/communityPic.png'));
+
+
+    const handleCommunityPhotoChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => setCommunityPhoto(reader.result);
+            reader.readAsDataURL(file);
+        }
+    };
+
 
     const handleTabSelect = (tab) => setActiveTab(tab);
 
@@ -36,7 +55,9 @@ const Sidebar = () => {
     const toggleMenu = () => {
         setShowMenu(!showMenu);
         setIsCreatingGroup(false);
+        setIsCreatingCommunity(false)
         setGroupStep(1);
+        setCommunityStep(1)
         if (!showMenu) {
             document.body.classList.add('modal-open');
         } else {
@@ -81,7 +102,8 @@ const Sidebar = () => {
                                 }}
                                 placeholder="Поиск..."
                                 onChange={(e) => searchUsers(e.target.value)}
-                            />                        </InputGroup>
+                            />
+                        </InputGroup>
                         <Nav variant="tabs" defaultActiveKey="chats" onSelect={handleTabSelect}>
                             <Nav.Item>
                                 <Nav.Link eventKey="chats">Чат</Nav.Link>
@@ -132,11 +154,23 @@ const Sidebar = () => {
             {showMenu && (
                 <div className="menu-overlay">
                     <div className="menu-content">
-                        {!isCreatingGroup && groupStep === 1 ? (
+                        {!isCreatingGroup && !isCreatingCommunity && groupStep && communityStep === 1 ? (
                             <>
                                 <h2 className="menu-title">Новый Чат</h2>
                                 <InputGroup className="mb-3 menu-search">
-                                    <FormControl placeholder="Поиск по имени..." />
+                                    <input
+                                type="text"
+                                style={{
+                                    width: '375px',
+                                    padding: '10px',
+                                    border: '1px solid #ccc',
+                                    borderRadius: '5px',
+                                    outline: 'none',
+                                    fontSize: '16px'
+                                }}
+                                placeholder="Поиск..."
+                                onChange={(e) => searchUsers(e.target.value)}
+                                    />
                                 </InputGroup>
                                 <div className="menu-buttons">
                                     <Button
@@ -151,7 +185,13 @@ const Sidebar = () => {
                                         />
                                         Новая группа
                                     </Button>
-                                    <Button variant="outline-light" className="menu-button">
+                                    <Button
+                                        variant="outline-light"
+                                        className="menu-button"
+                                        onClick={() => {
+                                            setIsCreatingCommunity(true);
+                                        }}
+                                    >
                                         <img
                                             src={require('../assets/community.png')}
                                             alt="Сообщество"
@@ -161,9 +201,38 @@ const Sidebar = () => {
                                     </Button>
                                 </div>
                                 <h5>Пользователи</h5>
-                                <ListGroup className="user-list">
-                                    {/* Здесь список пользователей */}
-                                </ListGroup>
+                                <ListGroup className="chat-list">
+                        {activeTab === 'chats' && (
+                            <>
+                                <ul
+                                    style={{
+                                        listStyle: 'none',
+                                        margin: 0,
+                                        padding: 0,
+                                        maxHeight: 'inherit',
+                                        overflowY: 'auto',
+                                        backgroundColor: '#383838',
+                                    }}
+                                >
+                                    {searchResults.map(user => (
+                                        <li
+                                            key={user.id}
+                                            style={{
+                                                padding: '10px',
+                                                borderBottom: '1px solid #232323',
+                                                cursor: 'pointer',
+                                                backgroundColor:
+                                                    selectedUser && selectedUser.id === user.id ? '#474747' : '#383838',
+                                            }}
+                                            onClick={() => setSelectedUser(user)}
+                                        >
+                                            {user.username}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </>
+                        )}
+                    </ListGroup>
                                 <Button
                                     variant="danger"
                                     className="close-menu"
@@ -172,23 +241,115 @@ const Sidebar = () => {
                                     Закрыть
                                 </Button>
                             </>
+                        ) : isCreatingCommunity ? (
+                            <div className="menu-content">
+                                <h2 className="menu-title">Создание сообщества</h2>
+                                <div className="group-photo-container" style={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center'}}>
+
+                                    <label htmlFor="group-photo-upload" className="group-photo-label" >
+                                        <span className="photo-text">
+                                            <img className="menu-icon"
+                                            src={communityPhoto} /></span>
+                                    </label>
+                                    <input
+                                        id="group-photo-upload"
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={handleCommunityPhotoChange}
+                                        style={{ display: 'none'}}
+                                    />
+                                </div>
+
+                                <InputGroup className="mb-3">
+                                    <FormControl
+                                        placeholder="Название сообщества"
+                                        value={communityName}
+                                        onChange={(e) => setCommunityName(e.target.value)}
+                                        style={{ backgroundColor: '#d3d3d3' }}
+                                    />
+                                </InputGroup>
+                                <InputGroup className="mb-3">
+                                    <FormControl
+                                        as="textarea"
+                                        placeholder="Описание сообществы"
+                                        value={communityDescription}
+                                        onChange={(e) => setCommunityDescription(e.target.value)}
+                                    />
+                                </InputGroup>
+                                <div className="menu-buttons">
+                                    <Button
+                                        variant="secondary"
+                                        className="menu-button"
+                                        onClick={() => {
+                                            setIsCreatingCommunity(false)
+                                            setCommunityStep(1)
+                                    }}
+
+                                    >
+                                        Назад
+                                    </Button>
+                                    <Button
+                                        variant="primary"
+                                        className="menu-button"
+                                        disabled={!communityName.trim()}
+                                        onClick={() => alert('Сообщество успешно создана!')}
+                                    >
+                                        Далее
+                                    </Button>
+                               </div>
+                            </div>
                         ) : groupStep === 1 && (
                             <>
                                 <h2 className="menu-title">Добавление в группу</h2>
                                 <InputGroup className="mb-3 menu-search">
-                                    <FormControl placeholder="Поиск пользователей..." />
+                            <input
+                                type="text"
+                                style={{
+                                    width: '375px',
+                                    padding: '10px',
+                                    border: '1px solid #ccc',
+                                    borderRadius: '5px',
+                                    outline: 'none',
+                                    fontSize: '16px'
+                                }}
+                                placeholder="Поиск..."
+                                onChange={(e) => searchUsers(e.target.value)}
+                            />
                                 </InputGroup>
                                 <ListGroup className="user-list">
-                                    {users.map((user, index) => (
-                                        <ListGroup.Item
-                                            key={index}
-                                            action
-                                            onClick={() => handleAddToGroup(user)}
-                                            active={selectedUsers.includes(user)}
-                                        >
-                                            {user}
-                                        </ListGroup.Item>
-                                    ))}
+                                    {activeTab === 'chats' && (
+                                        <>
+                                            <ul
+                                                style={{
+                                                    listStyle: 'none',
+                                                    margin: 0,
+                                                    padding: 0,
+                                                    maxHeight: 'inherit',
+                                                    overflowY: 'auto',
+                                                    backgroundColor: '#383838',
+                                                }}
+                                            >
+                                                {searchResults.map(user => (
+                                                    <li
+                                                        key={user.id}
+                                                        style={{
+                                                            padding: '10px',
+                                                            borderBottom: '1px solid #232323',
+                                                            cursor: 'pointer',
+                                                            backgroundColor:
+                                                                selectedUser && selectedUser.id === user.id ? '#474747' : '#383838',
+                                                        }}
+                                                        onClick={() => setSelectedUser(user)}
+                                                    >
+                                                        {user.username}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </>
+                                    )}
                                 </ListGroup>
                                 <div className="menu-buttons">
                                     <Button
@@ -208,24 +369,28 @@ const Sidebar = () => {
                                     </Button>
                                 </div>
                             </>
-                        )}
+                        )
+                        }
 
                         {groupStep === 2 && (
-                            <div className="menu-content">
+                            <div className="menu-content" >
                                 <h2 className="menu-title">Создание группы</h2>
-                                <div className="group-photo-container">
-
+                                <div className="group-photo-container" style={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center'}}>
                                     <label htmlFor="group-photo-upload" className="group-photo-label">
                                         <span className="photo-text">
                                             <img className="menu-icon"
-                                            src={groupPhoto} /></span>
+                                            src={groupPhoto} />
+                                        </span>
                                     </label>
                                     <input
                                         id="group-photo-upload"
                                         type="file"
                                         accept="image/*"
                                         onChange={handlePhotoChange}
-                                        style={{ display: 'none' }}
+                                        style={{ display: 'none'}}
                                     />
                                 </div>
 
