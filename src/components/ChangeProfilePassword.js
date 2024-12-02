@@ -45,7 +45,7 @@ const ChangeProfilePasswordForm = () => {
     }
 
     const goBack = () => {
-        navigate('');
+        navigate('/chat');
     };
 
     return (

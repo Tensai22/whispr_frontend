@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import defaultProfilePic from '../assets/Cat_logo_by_khngldi.png';
-// import defaultCommunityPic from '../assets/communityPic.png';
 import '../css/chat.css';
 import '../css/header.css'
 import {useNavigate} from "react-router-dom";
@@ -11,6 +10,26 @@ const ChatHeader = ({username, communityname}) => {
     const [profilePic, setProfilePic] = useState(defaultProfilePic);
 
     const navigate = useNavigate();
+        const handleProfilePic = async (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = async () => {
+                setProfilePic(reader.result);
+                try {
+                    // Отправка новой картинки на сервер
+                    await axios.post('http://localhost:8000/api/updateProfilePic/', {
+                        profilePic: reader.result
+                    }, {
+                        withCredentials: true,
+                    });
+                } catch (error) {
+                    console.error('Error updating profile picture:', error);
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
     const handleRedirectChange = () => {
         navigate('/changeprofilepassword')
@@ -43,7 +62,17 @@ const ChatHeader = ({username, communityname}) => {
                 <span className="username">{username}</span>
                 <img src={profilePic} alt="Profile" className="profile-pic"/>
                 <div className="profile-menu">
-                    <button>Сменить картинку</button>
+                    <button>
+                        <label style={{ cursor: 'pointer'}}>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleProfilePic}
+                                style={{ display: 'none'}}
+                            />
+                            Сменить картинку
+                        </label>
+                    </button>
                     <button onClick={handleRedirectChange}>Сменить пароль</button>
                     <button onClick={handleLogout}>Выход</button>
                 </div>
