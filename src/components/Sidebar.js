@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { ListGroup } from 'react-bootstrap';
 import axios from 'axios';
-import ChatWindow from "./ChatWindow";
 
 const Sidebar = ({ onSelectUser }) => {
     const [users, setUsers] = useState([]);
-    const [selectedUser, setSelectedUser] = useState(null);
-
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -35,13 +32,6 @@ const Sidebar = ({ onSelectUser }) => {
                     </ListGroup.Item>
                 ))}
             </ListGroup>
-
-    return (
-        <div className="app">
-            <Sidebar onSelectUser={setSelectedUser} />
-            <ChatWindow selectedUser={selectedUser} />
-        </div>
-    );
         </div>
     );
 };

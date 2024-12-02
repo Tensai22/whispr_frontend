@@ -1,49 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Button, InputGroup, FormControl } from 'react-bootstrap';
 import axios from 'axios';
 
 const ChatWindow = ({ selectedUser }) => {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
-    const [socket, setSocket] = useState(null);
-    const [username, setUsername] = useState(localStorage.getItem('username') || 'guest');
-    const messagesEndRef = useRef(null);
+    const username = localStorage.getItem('username') || 'guest';
 
     useEffect(() => {
         if (!selectedUser) return;
 
-        const ws = new WebSocket(`ws://localhost:8000/ws/chat/${selectedUser.id}/`);
-        setSocket(ws);
-
-        ws.onopen = () => {
-            console.log(`Connected to WebSocket with user ${selectedUser.username}`);
-        };
-
-        ws.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            setMessages((prevMessages) => [...prevMessages, data]);
-        };
-
-        ws.onclose = () => {
-            console.log('Disconnected from WebSocket!');
-            setSocket(null);
-        };
-
-        ws.onerror = (error) => {
-            console.error('WebSocket error:', error);
-        };
-
-        return () => {
-            if (socket) {
-                socket.close();
-            }
-        };
-    }, [selectedUser]);
-
-    useEffect(() => {
         const fetchMessages = async () => {
-            if (!selectedUser) return;
-
             try {
                 const response = await axios.get(`http://localhost:8000/chat/messages/${selectedUser.id}/`);
                 setMessages(response.data);
@@ -55,25 +22,22 @@ const ChatWindow = ({ selectedUser }) => {
         fetchMessages();
     }, [selectedUser]);
 
-    useEffect(() => {
-        scrollToBottom();
-    }, [messages]);
-
-    const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    };
-
-    const handleSendMessage = (event) => {
+    const handleSendMessage = async (event) => {
         event.preventDefault();
-        if (newMessage.trim() !== '' && socket) {
-            const messageData = {
-                sender: username,
-                receiver: selectedUser.username,
-                message: newMessage,
-            };
-            socket.send(JSON.stringify(messageData));
+        if (newMessage.trim() === '') return;
+
+        const messageData = {
+            sender: username,
+            receiver: selectedUser.username,
+            message: newMessage,
+        };
+
+        try {
+            await axios.post('http://localhost:8000/chat/messages/', messageData);
             setMessages((prev) => [...prev, messageData]);
             setNewMessage('');
+        } catch (error) {
+            console.error('Error sending message:', error);
         }
     };
 
@@ -90,7 +54,6 @@ const ChatWindow = ({ selectedUser }) => {
                         <span>{msg.message}</span>
                     </div>
                 ))}
-                <div ref={messagesEndRef} />
             </div>
             <Form onSubmit={handleSendMessage}>
                 <InputGroup>
