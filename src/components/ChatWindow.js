@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Form, Button, InputGroup, FormControl } from 'react-bootstrap';
 import axios from 'axios';
 
-const ChatWindow = () => {
+const ChatWindow = ({ selectedUser }) => {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
     const [socket, setSocket] = useState(null);
@@ -10,16 +10,18 @@ const ChatWindow = () => {
     const messagesEndRef = useRef(null);
 
     useEffect(() => {
-        const ws = new WebSocket('ws://localhost:8000/ws/chat/');
+        if (!selectedUser) return;
+
+        const ws = new WebSocket(`ws://localhost:8000/ws/chat/${selectedUser.id}/`);
         setSocket(ws);
 
         ws.onopen = () => {
-            console.log('Connected to WebSocket!');
+            console.log(`Connected to WebSocket with user ${selectedUser.username}`);
         };
 
         ws.onmessage = (event) => {
             const data = JSON.parse(event.data);
-            setMessages(prevMessages => [...prevMessages, data.message]);
+            setMessages((prevMessages) => [...prevMessages, data]);
         };
 
         ws.onclose = () => {
@@ -36,12 +38,14 @@ const ChatWindow = () => {
                 socket.close();
             }
         };
-    }, []);
+    }, [selectedUser]);
 
     useEffect(() => {
         const fetchMessages = async () => {
+            if (!selectedUser) return;
+
             try {
-                const response = await axios.get('http://localhost:8000/chat/get_messages/');
+                const response = await axios.get(`http://localhost:8000/chat/messages/${selectedUser.id}/`);
                 setMessages(response.data);
             } catch (error) {
                 console.error('Error fetching messages:', error);
@@ -49,35 +53,41 @@ const ChatWindow = () => {
         };
 
         fetchMessages();
-    }, []);
+    }, [selectedUser]);
 
     useEffect(() => {
         scrollToBottom();
     }, [messages]);
 
     const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     };
 
     const handleSendMessage = (event) => {
         event.preventDefault();
         if (newMessage.trim() !== '' && socket) {
-            socket.send(JSON.stringify({
-                username: username,
-                message: newMessage
-            }));
+            const messageData = {
+                sender: username,
+                receiver: selectedUser.username,
+                message: newMessage,
+            };
+            socket.send(JSON.stringify(messageData));
+            setMessages((prev) => [...prev, messageData]);
             setNewMessage('');
         }
     };
 
+    if (!selectedUser) {
+        return <div>Выберите пользователя для начала диалога.</div>;
+    }
+
     return (
         <div className="chat-window">
             <div className="messages">
-                {messages.map(msg => (
-                    <div key={msg.id} className="message">
-                        <strong>{msg.username}: </strong>
+                {messages.map((msg, index) => (
+                    <div key={index} className="message">
+                        <strong>{msg.sender}: </strong>
                         <span>{msg.message}</span>
-                        <em> {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</em>
                     </div>
                 ))}
                 <div ref={messagesEndRef} />
@@ -87,7 +97,7 @@ const ChatWindow = () => {
                     <FormControl
                         type="text"
                         value={newMessage}
-                        onChange={e => setNewMessage(e.target.value)}
+                        onChange={(e) => setNewMessage(e.target.value)}
                         placeholder="Введите сообщение..."
                     />
                     <Button type="submit">Отправить</Button>

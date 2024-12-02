@@ -12,6 +12,7 @@ const ChatDesign = () => {
             <div className="chat-body">
                 {<Sidebar />}
                 <ChatWindow />
+
             </div>
         </div>
     );
