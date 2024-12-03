@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Form, Button, InputGroup, FormControl } from 'react-bootstrap';
 import axios from 'axios';
+import '../css/ChatWindow.css';
 
 const ChatWindow = () => {
     const [messages, setMessages] = useState([]);
@@ -19,7 +20,7 @@ const ChatWindow = () => {
 
         ws.onmessage = (event) => {
             const data = JSON.parse(event.data);
-            setMessages(prevMessages => [...prevMessages, data.message]);
+            addMessage(data.message);
         };
 
         ws.onclose = () => {
@@ -42,7 +43,7 @@ const ChatWindow = () => {
         const fetchMessages = async () => {
             try {
                 const response = await axios.get('http://localhost:8000/chat/get_messages/');
-                setMessages(response.data);
+                response.data.forEach(message => addMessage(message));
             } catch (error) {
                 console.error('Error fetching messages:', error);
             }
@@ -55,25 +56,41 @@ const ChatWindow = () => {
         scrollToBottom();
     }, [messages]);
 
+
+    const addMessage = (message) => {
+        setMessages(prevMessages => {
+            if (!prevMessages.some(msg => msg.id === message.id)) {
+                return [...prevMessages, message];
+            }
+            return prevMessages;
+        });
+    };
+
+
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     };
 
-    const handleSendMessage = (event) => {
-        event.preventDefault();
-        if (newMessage.trim() !== '' && socket) {
-            socket.send(JSON.stringify({
-                username: username,
-                message: newMessage
-            }));
+    const handleSendMessage = () => {
+        if (socket && socket.readyState === WebSocket.OPEN && newMessage.trim() !== '') {
+            socket.send(JSON.stringify({ username, message: newMessage.trim() }));
             setNewMessage('');
+        } else if (!newMessage.trim()) {
+          alert('Введите сообщение перед отправкой.');
+
+        }
+        else {
+            console.error('WebSocket неактивен. Сообщение не отправлено.');
+            alert('Соединение с сервером отсутствует. Пожалуйста, перезагрузите страницу.');
         }
     };
 
+
     return (
+
         <div className="chat-window">
             <div className="messages">
-                {messages.map(msg => (
+                {messages.map((msg) => (
                     <div key={msg.id} className="message">
                         <strong>{msg.username}: </strong>
                         <span>{msg.message}</span>
@@ -82,15 +99,28 @@ const ChatWindow = () => {
                 ))}
                 <div ref={messagesEndRef} />
             </div>
-            <Form onSubmit={handleSendMessage}>
+            <Form
+                onSubmit={(e) => {
+                    e.preventDefault(); // Предотвращаем перезагрузку страницы
+                    if (newMessage.trim() !== '') {
+                        handleSendMessage();
+                    } else {
+                        alert('Введите сообщение перед отправкой.');
+                    }
+                }}
+            >
                 <InputGroup>
                     <FormControl
                         type="text"
                         value={newMessage}
-                        onChange={e => setNewMessage(e.target.value)}
+                        onChange={(e) => setNewMessage(e.target.value)}
                         placeholder="Введите сообщение..."
+                        required
+                        autoFocus
                     />
-                    <Button type="submit">Отправить</Button>
+                    <Button type="submit" variant="primary" disabled={!socket || newMessage.trim() === ''}>
+                        Отправить
+                    </Button>
                 </InputGroup>
             </Form>
         </div>
