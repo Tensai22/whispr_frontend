@@ -62,7 +62,7 @@ const ChangePasswordForm = () => {
                     <h2>Подтверждения смены пароля</h2>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <input
-                            type="new_password"
+                            type="password"
                             className="form-control mb-3"
                             placeholder="Введите новый пароль..."
                             {...register('new_password', {

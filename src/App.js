@@ -28,7 +28,7 @@ const App = () => {
                 <Route path="/changepassword" element={<ChangePassword/>}/>
                 <Route path="/changeprofilepassword" element={<ChangeProfilePasswordForm/>}/>
                 <Route path="/reset/:uidb64/:token" element={<ChangeResetPassword/>} />
-                <Route path="/chat/:roomName" component={<ChatWindow/>} />
+                <Route path="/chat" component={<ChatWindow/>} />
             </Routes>
         </Router>
     );
