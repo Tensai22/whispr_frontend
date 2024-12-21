@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import defaultProfilePic from '../assets/Cat_logo_by_khngldi.png';
 // import defaultCommunityPic from '../assets/communityPic.png';
 import '../css/chat.css';
@@ -6,11 +6,29 @@ import '../css/header.css'
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 
-
-const ChatHeader = ({username, communityname}) => {
+const ChatHeader = ({communityname}) => {
+    const [username, setUsername] = useState('');
     const [profilePic, setProfilePic] = useState(defaultProfilePic);
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchUserProfile = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/api/me/', {
+                    withCredentials: true
+                });
+                setUsername(response.data.username);
+                if (response.data.avatar_url) {
+                    setProfilePic(`http://localhost:8000${response.data.avatar_url}`);
+                }
+            } catch (error) {
+                console.error("Error fetching user profile:", error);
+            }
+        };
+
+        fetchUserProfile();
+    }, []);
 
     const handleRedirectChange = () => {
         navigate('/changeprofilepassword')
@@ -22,11 +40,9 @@ const ChatHeader = ({username, communityname}) => {
                 withCredentials: true
             });
             if (response.status === 200) {
-                // Clear tokens from local storage or cookies
                 localStorage.removeItem('accessToken');
                 localStorage.removeItem('refreshToken');
-
-                navigate("/login");
+                navigate("/");
             }
         } catch (error) {
             console.error('Error logging out:', error);
@@ -53,5 +69,3 @@ const ChatHeader = ({username, communityname}) => {
 };
 
 export default ChatHeader;
-
-
