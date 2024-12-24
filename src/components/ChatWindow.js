@@ -9,6 +9,7 @@ const ChatWindow = ({ selectedUser }) => {
     const [newMessage, setNewMessage] = useState('');
     const messagesEndRef = useRef(null);
     const accessToken = localStorage.getItem('accessToken')
+    const socketRef = useRef(null);
 
 
     useEffect(() => {
@@ -23,7 +24,6 @@ const ChatWindow = ({ selectedUser }) => {
                            },
                        }
                    );
-                    // Ищем чат с выбранным пользователем
                     const chat = chatResponse.data.find(chat =>
                       chat.participants.includes(selectedUser.id)
                     )
@@ -50,6 +50,38 @@ const ChatWindow = ({ selectedUser }) => {
         fetchMessages();
     }, [selectedUser, accessToken]);
 
+    useEffect(() => {
+        if (selectedUser && accessToken){
+          const token = accessToken;
+           const wsUrl = `ws://localhost:8000/ws/chat/?token=${token}`;
+
+              socketRef.current = new WebSocket(wsUrl);
+
+              socketRef.current.onopen = () => {
+                console.log("WebSocket соединение открыто");
+              };
+
+              socketRef.current.onmessage = (event) => {
+                  const message = JSON.parse(event.data);
+                  setMessages((prevMessages) => [...prevMessages, message]);
+              };
+
+              socketRef.current.onclose = () => {
+                  console.log("WebSocket соединение закрыто");
+              };
+
+              socketRef.current.onerror = (error) => {
+                  console.error("Ошибка WebSocket:", error);
+              };
+
+              return () => {
+                  if (socketRef.current) {
+                      socketRef.current.close();
+                  }
+            }
+
+        }
+    }, [selectedUser, accessToken]);
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     };
@@ -65,46 +97,44 @@ const ChatWindow = ({ selectedUser }) => {
         }
 
         try {
-             const chatResponse = await axios.get(
-               `http://localhost:8000/chat/private-chats/`,
-               {
-                   headers: {
-                       Authorization: `Bearer ${accessToken}`,
-                   },
-               }
-            );
-            const chat = chatResponse.data.find(chat =>
-               chat.participants.includes(selectedUser.id)
+            const chatResponse = await axios.get(
+              `http://localhost:8000/chat/private-chats/`,
+              {
+                  headers: {
+                      Authorization: `Bearer ${accessToken}`,
+                  },
+              }
+           );
+           const chat = chatResponse.data.find(chat =>
+              chat.participants.includes(selectedUser.id)
              );
 
-            let chatId;
+           let chatId;
 
             if (!chat) {
-              const createChatResponse = await axios.post(
-                `http://localhost:8000/chat/private-chats/`,
-                 { participants: [selectedUser.id] },
-                 {
-                    headers: {
-                       Authorization: `Bearer ${accessToken}`,
-                    },
-                 }
-               )
-               chatId = createChatResponse.data.id;
-             }else{
-                chatId = chat.id;
-             }
-
-            const response = await axios.post(
-                `http://localhost:8000/chat/private-chats/${chatId}/messages/`,
-                { text: newMessage },
-                {
-                    headers: {
+               const createChatResponse = await axios.post(
+                 `http://localhost:8000/chat/private-chats/`,
+                  { participants: [selectedUser.id] },
+                  {
+                     headers: {
                         Authorization: `Bearer ${accessToken}`,
-                    },
-                }
-            );
-            setMessages(prevMessages => [...prevMessages, response.data]);
-            setNewMessage('');
+                      },
+                   }
+                )
+                chatId = createChatResponse.data.id;
+             }else{
+               chatId = chat.id;
+            }
+
+
+             if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
+                 socketRef.current.send(JSON.stringify({
+                   message: newMessage,
+                   chatId: chatId
+                 }));
+             }
+              setNewMessage('');
+
         } catch (error) {
             console.error('Ошибка при отправке сообщения:', error);
             alert('Сообщение не отправлено. Попробуйте позже.');
