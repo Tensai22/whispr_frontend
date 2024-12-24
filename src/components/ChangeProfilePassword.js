@@ -16,9 +16,10 @@ const ChangeProfilePasswordForm = () => {
 
     const onSubmit = async (data) => {
         try {
-            const response = await axios.post("http://localhost:8000/api/change_password/", data, {
+            const accessToken = localStorage.getItem('accessToken');
+            await axios.post("http://localhost:8000/api/change_password/", data, {
                 headers: {
-                    'X-CSRFToken': getCookie('csrftoken')
+                    'Authorization': `Bearer ${accessToken}`
                 }
             });
             reset();
@@ -29,23 +30,9 @@ const ChangeProfilePasswordForm = () => {
         }
     };
 
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
 
     const goBack = () => {
-        navigate('');
+        navigate('/chat');
     };
 
     return (

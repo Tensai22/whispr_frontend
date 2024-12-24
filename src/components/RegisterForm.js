@@ -12,20 +12,6 @@ const RegisterForm = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
 
-    const getCookie = (name) => {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
 
     const goLogin = () => {
         navigate('/login');
@@ -33,13 +19,15 @@ const RegisterForm = () => {
 
     const onSubmit = async (data) => {
         try {
-            const csrftoken = getCookie('csrftoken');
             const response = await axios.post('http://localhost:8000/api/register/', data, {
-                headers: {
-                    'X-CSRFToken': csrftoken,
-                },
-                withCredentials: true  // Включение сессионных куки
+                withCredentials: true
             });
+            if (typeof localStorage !== 'undefined') {
+                localStorage.setItem('accessToken', response.data.access);
+                localStorage.setItem('refreshToken', response.data.refresh);
+            } else {
+                 console.error('localStorage is not available');
+            }
             setSuccessMessage('Успешная регистрация');
             setErrorMessage('');
             reset();

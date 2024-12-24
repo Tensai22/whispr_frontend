@@ -17,35 +17,17 @@ const ChangePasswordForm = () => {
 
     const onSubmit = async (data) => {
         try {
-            const csrftoken = getCookie('csrftoken');
-            const response = await axios.post(`http://localhost:8000/api/password_reset_confirm/${uidb64}/${token}/`, data, {
-                headers: {
-                    'X-CSRFToken': csrftoken,
-                }
-            });
-            setSuccessMessage('Успешная регистрация');
+            await axios.post(`http://localhost:8000/api/password_reset_confirm/${uidb64}/${token}/`, data);
+            setSuccessMessage('Пароль успешно изменен');
             setErrorMessage('');
             reset();
         } catch (error) {
             console.error('Error:', error);
-            setErrorMessage('Ошибка при регистрации');
+            setErrorMessage('Ошибка при смене пароля');
         }
     };
 
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
+
 
     const goBack = () => {
         navigate('/login');

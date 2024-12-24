@@ -8,28 +8,47 @@ const ChatWindow = ({ selectedUser }) => {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
     const messagesEndRef = useRef(null);
+    const accessToken = localStorage.getItem('accessToken')
+
 
     useEffect(() => {
         const fetchMessages = async () => {
-            if (selectedUser) {
+            if (selectedUser && accessToken) {
                 try {
-                    const response = await axios.get(
-                        `http://localhost:8000/chat/messages/${selectedUser.id}/`,
-                        {
-                            headers: {
-                                Authorization: `Bearer ${localStorage.getItem('token')}`,
-                            },
-                        }
-                    );
-                    setMessages(response.data);
+                     const chatResponse = await axios.get(
+                       `http://localhost:8000/chat/private-chats/`,
+                       {
+                           headers: {
+                               Authorization: `Bearer ${accessToken}`,
+                           },
+                       }
+                   );
+                    // Ищем чат с выбранным пользователем
+                    const chat = chatResponse.data.find(chat =>
+                      chat.participants.includes(selectedUser.id)
+                    )
+                   if (chat) {
+                       const response = await axios.get(
+                            `http://localhost:8000/chat/private-chats/${chat.id}/messages/`,
+                            {
+                                headers: {
+                                    Authorization: `Bearer ${accessToken}`,
+                                },
+                            }
+                        );
+                       setMessages(response.data);
+                   } else {
+                      setMessages([]);
+                   }
+
                 } catch (error) {
-                    console.error("Error fetching messages:", error);
+                    console.error("Ошибка при загрузке сообщений:", error);
                 }
             }
         };
 
         fetchMessages();
-    }, [selectedUser]);
+    }, [selectedUser, accessToken]);
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -46,19 +65,48 @@ const ChatWindow = ({ selectedUser }) => {
         }
 
         try {
+             const chatResponse = await axios.get(
+               `http://localhost:8000/chat/private-chats/`,
+               {
+                   headers: {
+                       Authorization: `Bearer ${accessToken}`,
+                   },
+               }
+            );
+            const chat = chatResponse.data.find(chat =>
+               chat.participants.includes(selectedUser.id)
+             );
+
+            let chatId;
+
+            if (!chat) {
+              const createChatResponse = await axios.post(
+                `http://localhost:8000/chat/private-chats/`,
+                 { participants: [selectedUser.id] },
+                 {
+                    headers: {
+                       Authorization: `Bearer ${accessToken}`,
+                    },
+                 }
+               )
+               chatId = createChatResponse.data.id;
+             }else{
+                chatId = chat.id;
+             }
+
             const response = await axios.post(
-                `http://localhost:8000/chat/messages/${selectedUser.id}/`,
+                `http://localhost:8000/chat/private-chats/${chatId}/messages/`,
                 { text: newMessage },
                 {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                        Authorization: `Bearer ${accessToken}`,
                     },
                 }
             );
             setMessages(prevMessages => [...prevMessages, response.data]);
             setNewMessage('');
         } catch (error) {
-            console.error('Error sending message:', error);
+            console.error('Ошибка при отправке сообщения:', error);
             alert('Сообщение не отправлено. Попробуйте позже.');
         }
     };
@@ -103,4 +151,3 @@ const ChatWindow = ({ selectedUser }) => {
 };
 
 export default ChatWindow;
-
