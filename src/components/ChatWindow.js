@@ -8,14 +8,14 @@ const ChatWindow = () => {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
     const [socket, setSocket] = useState(null);
-    const [username, setUsername] = useState(localStorage.getItem('username') || 'guest');
     const messagesEndRef = useRef(null);
 
     useEffect(() => {
         let currentSocket = null;
+        const accessToken = localStorage.getItem('accessToken');
 
         const connectWebSocket = () => {
-            const ws = new WebSocket('ws://localhost:8000/ws/chat/');
+             const ws = new WebSocket(`ws://localhost:8000/ws/chat/?token=${accessToken}`);
             setSocket(ws);
             currentSocket = ws;
 

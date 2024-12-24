@@ -6,17 +6,23 @@ import axios from "axios";
 
 const LoginForm = () => {
     const {register, handleSubmit, formState: {errors}, reset} = useForm();
-    const [successMessage, setSuccessMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
 
     const onSubmit = async (data) => {
         try {
             const response = await axios.post('http://localhost:8000/api/login/', data);
-            setSuccessMessage("Успешная авторизация");
+            if (typeof localStorage !== 'undefined') {
+                localStorage.setItem('accessToken', response.data.access);
+                localStorage.setItem('refreshToken', response.data.refresh);
+            } else {
+                 console.error('localStorage is not available');
+            }
             reset();
             navigate('/chat');
         } catch (error) {
             console.error('Error:', error);
+            setErrorMessage("Неверный логин или пароль");
         }
     };
 
@@ -36,24 +42,24 @@ const LoginForm = () => {
                     <div className="mb-3">
                         <input type="text" className="form-control" id="login" name="login"
                                placeholder="Логин..." {...register('username', {
-                            required: 'username is required',
+                            required: 'Имя пользователя обязательно',
                             pattern: {
                                 value: /^[a-zA-Z0-9]+$/,
-                                message: 'Invalid username'
+                                message: 'Неверное имя пользователя'
                             }
                         })} />
-                        {errors.username && <span>Username is required</span>}
+                        {errors.username && <span>{errors.username.message}</span>}
                     </div>
                     <div className="mb-3">
                         <input type="password" className="form-control" id="password" name="password"
                                placeholder="Пароль..." {...register('password', {
-                            required: 'Password is required',
+                            required: 'Пароль обязателен',
                             minLength: {
                                 value: 8,
-                                message: 'Password must be at least 8 characters long'
+                                message: 'Пароль должен быть не менее 8 символов'
                             }
                         })} />
-                        {errors.password && <span>Password is required</span>}
+                        {errors.password && <span>{errors.password.message}</span>}
                     </div>
                     <a onClick={handleRedirect} id="forgot-password" className="text-light">Забыли пароль?</a>
                     <div className="d-flex justify-content-between mt-3">
@@ -61,7 +67,7 @@ const LoginForm = () => {
                                 onClick={handleRedirectRegister}>Регистрация
                         </button>
                         <button type="submit" className="btn btn-primary">Войти</button>
-                        {successMessage && <div>{successMessage}</div>}
+                        {errorMessage && <div className="text-danger">{errorMessage}</div>}
                     </div>
                 </form>
             </div>

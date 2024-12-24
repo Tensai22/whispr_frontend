@@ -9,13 +9,16 @@ import axios from "axios";
 const ChatHeader = ({communityname}) => {
     const [username, setUsername] = useState('');
     const [profilePic, setProfilePic] = useState(defaultProfilePic);
-
+    const accessToken = localStorage.getItem('accessToken')
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchUserProfile = async () => {
             try {
                 const response = await axios.get('http://localhost:8000/api/me/', {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`
+                    },
                     withCredentials: true
                 });
                 setUsername(response.data.username);
