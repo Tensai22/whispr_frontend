@@ -7,6 +7,7 @@ import '../css/ChatWindow.css';
 const ChatWindow = () => {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
+    const [selectedFile, setSelectedFile] = useState(null);
     const [socket, setSocket] = useState(null);
     const messagesEndRef = useRef(null);
 
@@ -15,7 +16,7 @@ const ChatWindow = () => {
         const accessToken = localStorage.getItem('accessToken');
 
         const connectWebSocket = () => {
-             const ws = new WebSocket(`ws://localhost:8000/ws/chat/?token=${accessToken}`);
+            const ws = new WebSocket(`ws://localhost:8000/ws/chat/?token=${accessToken}`);
             setSocket(ws);
             currentSocket = ws;
 
@@ -64,13 +65,41 @@ const ChatWindow = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     };
 
-    const handleSendMessage = () => {
-        if (socket && socket.readyState === WebSocket.OPEN && newMessage.trim() !== '') {
-            const messageToSend = { message: newMessage };
-            socket.send(JSON.stringify(messageToSend));
-            setNewMessage('');
-        } else if (!newMessage.trim()) {
-            alert('Введите сообщение перед отправкой.');
+    const handleFileSelect = (event) => {
+        setSelectedFile(event.target.files[0]);
+    };
+
+    const handleSendMessage = async () => {
+        if (socket && socket.readyState === WebSocket.OPEN) {
+            // Изменено: Отправляем сообщение, если есть текст ИЛИ файл
+            if (newMessage.trim() !== '' || selectedFile) {
+                const reader = new FileReader();
+                if (selectedFile) {
+                    reader.readAsDataURL(selectedFile);
+                    reader.onload = () => {
+                        const base64File = reader.result.split(',')[1];
+                        const messageToSend = {
+                            message: newMessage,
+                            file: base64File,
+                            filename: selectedFile.name
+                        };
+                        socket.send(JSON.stringify(messageToSend));
+                        setNewMessage('');
+                        setSelectedFile(null);
+                        document.getElementById('fileInput').value = ''; // Очистка инпута файла
+                    };
+                    reader.onerror = (error) => {
+                        console.error('Error reading file:', error);
+                        alert('Ошибка при чтении файла.');
+                    };
+                } else {
+                    const messageToSend = { message: newMessage };
+                    socket.send(JSON.stringify(messageToSend));
+                    setNewMessage('');
+                }
+            } else {
+                alert('Введите сообщение или выберите файл для отправки.');
+            }
         } else {
             console.error('WebSocket неактивен. Сообщение не отправлено.');
             alert('Соединение с сервером отсутствует. Пожалуйста, перезагрузите страницу.');
@@ -93,6 +122,15 @@ const ChatWindow = () => {
             >
                 <InputGroup>
                     <FormControl
+                        type="file"
+                        id="fileInput"
+                        onChange={handleFileSelect}
+                        style={{ display: 'none' }}
+                    />
+                    <label htmlFor="fileInput" className="btn btn-secondary" style={{ whiteSpace: 'nowrap' }}>
+                        Выбрать файл
+                    </label>
+                    <FormControl
                         type="text"
                         value={newMessage}
                         onChange={(e) => setNewMessage(e.target.value)}
@@ -100,7 +138,7 @@ const ChatWindow = () => {
                         required
                         autoFocus
                     />
-                    <Button type="submit" variant="primary" disabled={!socket || newMessage.trim() === ''}>
+                    <Button type="submit" variant="primary" disabled={!socket}>
                         Отправить
                     </Button>
                 </InputGroup>
