@@ -1,13 +1,21 @@
 .chat-window {
     display: flex;
     flex-direction: column;
-    height: 90vh;
+    height: inherit;
     width: 100%;
-    max-width: 1200px;
+    max-width: inherit;
     margin: 0 auto;
-    border-radius: 5px;
     overflow: hidden;
     background-color: transparent;
+}
+.chat-window h2 {
+    background-color: #4b4b4b;
+    color: #ffffff;
+    padding: 10px;
+    margin: 0;
+    border-bottom: 1px solid #333;
+    font-size: 22px;
+    height: auto;
 }
 
 .messages {
@@ -15,6 +23,7 @@
     padding: 10px;
     overflow-y: auto;
     background-color: transparent;
+    color: #ffffff;
 }
 
 .message-input {

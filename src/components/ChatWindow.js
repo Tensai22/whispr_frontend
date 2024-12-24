@@ -147,7 +147,7 @@ const ChatWindow = ({ selectedUser }) => {
         <div className="chat-window">
             {selectedUser ? (
                 <>
-                    <h2>Чат с {selectedUser.username}</h2>
+                    <h2>{selectedUser.username}</h2>
                     <div className="messages">
                         {messages.map(message => (
                             <ChatMessage key={message.id} message={message} />
