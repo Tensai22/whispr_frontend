@@ -3,7 +3,7 @@ import '../css/chat.css';
 import { ListGroup, InputGroup, FormControl, Nav, Button } from 'react-bootstrap';
 import axios from 'axios';
 
-const Sidebar = () => {
+const Sidebar = ({ onSelectUser }) => {
     const [activeTab, setActiveTab] = useState('chats');
     const [showMenu, setShowMenu] = useState(false);
     const [isCreatingGroup, setIsCreatingGroup] = useState(false);
@@ -34,6 +34,11 @@ const Sidebar = () => {
             console.error('Error searching users:', error);
             setSearchResults([]);
         }
+    };
+
+    const handleUserSelect = (user) => {
+        setSelectedUser(user);
+        onSelectUser(user);
     };
 
     const toggleMenu = () => {
@@ -67,7 +72,7 @@ const Sidebar = () => {
         setCommunityError('');
         try {
             const response = await axios.post(
-                'http://localhost:8000/api/communities/create/',
+                'http://localhost:8000/chat/communities/create/',
                 {
                     name: communityName,
                     description: communityDescription,
@@ -95,7 +100,7 @@ const Sidebar = () => {
     // Функция для получения списка сообществ, в которых состоит пользователь
     const fetchUserCommunities = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/api/user_communities/', {
+            const response = await axios.get('http://localhost:8000/chat/user_communities/', {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -174,7 +179,7 @@ const Sidebar = () => {
                                                     ? '#474747'
                                                     : '#383838',
                                         }}
-                                        onClick={() => setSelectedUser(user)}
+                                        onClick={() => handleUserSelect(user)}
                                     >
                                         {user.username}
                                     </li>
