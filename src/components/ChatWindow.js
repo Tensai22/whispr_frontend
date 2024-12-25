@@ -137,7 +137,7 @@ const ChatWindow = ({ selectedUser }) => {
 
             if (!chat) {
                 const createChatResponse = await axios.post(
-                    `http://localhost:org/chat/private-chats/`,
+                    `http://localhost:8000/chat/private-chats/`,
                     { participants: [selectedUser.id] },
                     {
                         headers: {

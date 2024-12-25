@@ -197,9 +197,8 @@ input[type="file"] {
 .sidebar .sidebar-header {
     position: relative;
     padding: 10px 10px;
-    height: 105px;
+    height: 150px;
     background-color: #2C2C2C;
-    z-index: 10; /* Добавляем z-index */
 }
 
 .sidebar-title {
@@ -239,8 +238,25 @@ input[type="file"] {
     height: 35px;
 }
 
+.nav-tabs {
+    display: flex;
+    justify-content: space-around;
+    border-bottom: 1px solid #3a3a3a;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    position: absolute;
+}
 
-
+.nav-tabs .nav-link {
+    color: #ccc;
+    padding: 10px 0;
+    text-align: center;
+    position: relative;
+    background-color: transparent;
+    flex: 1;
+    transition: background-color 0.3s ease;
+}
 
 .nav-tabs .nav-link.active {
     color: #fff;
