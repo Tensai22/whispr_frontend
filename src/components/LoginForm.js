@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {useNavigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
@@ -8,6 +8,13 @@ const LoginForm = () => {
     const {register, handleSubmit, formState: {errors}, reset} = useForm();
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (typeof localStorage !== 'undefined' && localStorage.getItem('accessToken')) {
+
+            navigate('/chat');
+        }
+    }, [navigate]);
 
     const onSubmit = async (data) => {
         try {
