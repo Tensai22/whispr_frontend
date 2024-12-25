@@ -1,13 +1,12 @@
+// ChatWindow.js
 import React, { useEffect, useRef, useState } from 'react';
-import { Form, Button, InputGroup, FormControl } from 'react-bootstrap';
 import axios from 'axios';
 import ChatMessage from './ChatMessage';
+import MessageInput from './MessageInput'; // Импорт MessageInput
 import '../css/ChatWindow.css';
 
 const ChatWindow = ({ selectedUser }) => {
     const [messages, setMessages] = useState([]);
-    const [newMessage, setNewMessage] = useState('');
-    const [selectedFile, setSelectedFile] = useState(null);
     const messagesEndRef = useRef(null);
     const accessToken = localStorage.getItem('accessToken');
     const socketRef = useRef(null);
@@ -115,17 +114,7 @@ const ChatWindow = ({ selectedUser }) => {
         scrollToBottom();
     }, [messages]);
 
-    const handleFileSelect = (event) => {
-        const file = event.target.files[0];
-        setSelectedFile(file);
-    };
-
-    const handleRemoveSelectedFile = () => {
-        setSelectedFile(null);
-        document.getElementById('fileInput').value = ''; // Очистка значения инпута
-    };
-
-    const handleSendMessage = async () => {
+    const handleSendMessage = async (newMessage, selectedFile) => {
         if (!newMessage.trim() && !selectedFile) {
             alert('Введите сообщение или выберите файл перед отправкой.');
             return;
@@ -148,7 +137,7 @@ const ChatWindow = ({ selectedUser }) => {
 
             if (!chat) {
                 const createChatResponse = await axios.post(
-                    `http://localhost:8000/chat/private-chats/`,
+                    `http://localhost:org/chat/private-chats/`,
                     { participants: [selectedUser.id] },
                     {
                         headers: {
@@ -174,14 +163,10 @@ const ChatWindow = ({ selectedUser }) => {
                         messageToSend.file = base64String;
                         messageToSend.filename = selectedFile.name;
                         socketRef.current.send(JSON.stringify(messageToSend));
-                        setNewMessage('');
-                        setSelectedFile(null);
-                        document.getElementById('fileInput').value = ''; // Очистка инпута файла
                     };
                     reader.readAsDataURL(selectedFile);
                 } else {
                     socketRef.current.send(JSON.stringify(messageToSend));
-                    setNewMessage('');
                 }
             }
 
@@ -189,28 +174,6 @@ const ChatWindow = ({ selectedUser }) => {
             console.error('Ошибка при отправке сообщения:', error);
             alert('Сообщение не отправлено. Попробуйте позже.');
         }
-    };
-
-    const renderSelectedFilePreview = () => {
-        if (!selectedFile) {
-            return null;
-        }
-
-        const fileURL = URL.createObjectURL(selectedFile);
-        const fileType = selectedFile.type;
-
-        return (
-            <div className="selected-file-preview">
-                {fileType.startsWith('image/') ? (
-                    <img src={fileURL} alt={selectedFile.name} style={{ maxWidth: '100px', maxHeight: '100px' }} />
-                ) : (
-                    <span>{selectedFile.name}</span>
-                )}
-                <Button variant="outline-danger" size="sm" onClick={handleRemoveSelectedFile}>
-                    Удалить
-                </Button>
-            </div>
-        );
     };
 
       const renderFilePreview = (message) => {
@@ -247,34 +210,7 @@ const ChatWindow = ({ selectedUser }) => {
                          ))}
                         <div ref={messagesEndRef} />
                     </div>
-                    {renderSelectedFilePreview()}
-                    <Form
-                        onSubmit={(e) => {
-                            e.preventDefault();
-                            handleSendMessage();
-                        }}
-                    >
-                        <InputGroup>
-                            <FormControl
-                                type="file"
-                                id="fileInput"
-                                onChange={handleFileSelect}
-                                style={{ display: 'none' }}
-                            />
-                            <label htmlFor="fileInput" className="btn btn-secondary">
-                                Выбрать файл
-                            </label>
-                            <FormControl
-                                type="text"
-                                value={newMessage}
-                                onChange={(e) => setNewMessage(e.target.value)}
-                                placeholder="Введите сообщение..."
-                            />
-                            <Button type="submit" variant="primary" disabled={!socketRef.current}>
-                                Отправить
-                            </Button>
-                        </InputGroup>
-                    </Form>
+                    <MessageInput onSendMessage={handleSendMessage} disabled={!socketRef.current} />
                 </>
             ) : (
                 <h2>Выберите пользователя для чата</h2>
