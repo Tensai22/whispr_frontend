@@ -17,19 +17,19 @@ const ChatList = ({ searchResults, selectedUser, onUserSelect }) => {
             >
                 {searchResults.map(user => (
                     <li
-                        key={user.id}
+                        key={user.id || user.name}
                         style={{
                             padding: '10px',
                             borderBottom: '1px solid #232323',
                             cursor: 'pointer',
                             backgroundColor:
-                                selectedUser && selectedUser.id === user.id
+                                selectedUser && (selectedUser.id === user.id || selectedUser.name === user.name)
                                     ? '#474747'
                                     : '#383838',
                         }}
                         onClick={() => onUserSelect(user)}
                     >
-                        {user.username}
+                      {user.username || user.name}
                     </li>
                 ))}
             </ul>

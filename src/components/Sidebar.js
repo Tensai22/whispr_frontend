@@ -22,6 +22,7 @@ const Sidebar = ({ onSelectUser }) => {
     const [searchResults, setSearchResults] = useState([]);
     const [selectedUser, setSelectedUser] = useState(null);
     const [communities, setCommunities] = useState([]);
+     const [groups, setGroups] = useState([]);
     const [communityError, setCommunityError] = useState('');
     const [isCreatingCommunity, setIsCreatingCommunity] = useState(false);
     const [communityName, setCommunityName] = useState('');
@@ -35,9 +36,18 @@ const Sidebar = ({ onSelectUser }) => {
     const searchUsers = async (event) => {
         const query = event.target.value;
         try {
-            const response = await axios.get(
-                `http://localhost:8000/api/search_users/?q=${query}`
-            );
+            let response;
+             if (activeTab === 'chats') {
+                 response = await axios.get(
+                    `http://localhost:8000/api/search_users/?q=${query}`
+                 );
+             } else if (activeTab === 'groups') {
+                  response = await axios.get(
+                    `http://localhost:8000/chat/groups/?q=${query}`
+                  );
+             } else {
+                  response = { data: [] };
+             }
             const results = Array.isArray(response.data) ? response.data : [];
             setSearchResults(results);
         } catch (error) {
@@ -75,6 +85,51 @@ const Sidebar = ({ onSelectUser }) => {
             const reader = new FileReader();
             reader.onload = () => setGroupPhoto(reader.result);
             reader.readAsDataURL(file);
+        }
+    };
+
+   const handleCreateGroup = async () => {
+       try {
+            const response = await axios.post(
+                'http://localhost:8000/chat/groups/create/',
+                {
+                     name: groupName,
+                    description: groupDescription
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                }
+            );
+
+           const groupId = response.data.id
+          console.log('Group created:', response.data);
+
+         for (const user of selectedUsers) {
+             await axios.post(
+                `http://localhost:8000/chat/group-memberships/`,
+                {
+                    user: user.id,
+                    group: groupId,
+                    role: 'member',
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                }
+             );
+           }
+            setIsCreatingGroup(false);
+            setGroupName('');
+            setGroupDescription('');
+             setSelectedUsers([]);
+            toggleMenu();
+           fetchUserGroups();
+       } catch (error) {
+            console.error('Error creating group:', error);
+           alert('Не удалось создать группу. Пожалуйста, попробуйте еще раз.')
         }
     };
 
@@ -136,10 +191,28 @@ const Sidebar = ({ onSelectUser }) => {
             setCommunities([]);
         }
     };
+    const fetchUserGroups = async () => {
+        try {
+            const response = await axios.get(
+                'http://localhost:8000/chat/user_groups/',
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                }
+            );
+           setGroups(response.data);
+        } catch (error) {
+            console.error('Error fetching user groups:', error);
+        }
+    };
+
 
     useEffect(() => {
         if (activeTab === 'communities') {
             fetchUserCommunities();
+        } else if (activeTab === 'groups'){
+             fetchUserGroups();
         }
     }, [activeTab, accessToken]);
 
@@ -195,6 +268,13 @@ const Sidebar = ({ onSelectUser }) => {
                             <CommunityList communities={communities} onCommunitySelect={handleCommunitySelect} />
                         </>
                     )}
+                   {activeTab === 'groups' && (
+                        <ChatList
+                            searchResults={groups}
+                             selectedUser={selectedUser}
+                            onUserSelect={handleUserSelect}
+                        />
+                    )}
                 </div>
             </div>
 
@@ -219,6 +299,7 @@ const Sidebar = ({ onSelectUser }) => {
                     onHandlePhotoChange={handlePhotoChange}
                     onSetGroupName={setGroupName}
                     onSetGroupDescription={setGroupDescription}
+                     onHandleCreateGroup={handleCreateGroup}
                     onHandleCreateCommunity={handleCreateCommunity}
                     onSetCommunityName={setCommunityName}
                     onSetCommunityDescription={setCommunityDescription}

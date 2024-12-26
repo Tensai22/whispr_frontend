@@ -173,7 +173,7 @@ const CommunityDetails = () => {
                     <div>
                         <h4>Администратор</h4>
                         <div className="member">
-                            <img src={admin.profile_photo || require('../assets/default-avatar.png')} alt="Фото админа" className="member-photo" />
+                            <img src={`http://localhost:8000${admin.profile_photo}` || require('../assets/default-avatar.png')} alt="Фото админа" className="member-photo" />
                             <span>{admin.username}</span>
                         </div>
                     </div>
@@ -184,7 +184,7 @@ const CommunityDetails = () => {
                         <h4>Модераторы</h4>
                         {moderators.map((moderator) => (
                             <div key={moderator.id} className="member">
-                                <img src={moderator.profile_photo || require('../assets/default-avatar.png')} alt="Фото модератора" className="member-photo" />
+                                <img src={`http://localhost:8000${admin.moderator.profile_photo}` || require('../assets/default-avatar.png')} alt="Фото модератора" className="member-photo" />
                                 <span>{moderator.username}</span>
                             </div>
                         ))}
@@ -196,7 +196,7 @@ const CommunityDetails = () => {
                         <h4>Участники</h4>
                         {members.map((member) => (
                             <div key={member.id} className="member">
-                                <img src={member.profile_photo || require('../assets/default-avatar.png')} alt="Фото участника" className="member-photo" />
+                                <img src={`http://localhost:8000${member.profile_photo}` || require('../assets/default-avatar.png')} alt="Фото участника" className="member-photo" />
                                 <span>{member.username}</span>
                             </div>
                         ))}

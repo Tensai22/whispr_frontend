@@ -1,6 +1,7 @@
 // NewChatMenu.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, InputGroup, FormControl, ListGroup } from 'react-bootstrap';
+import axios from 'axios';
 
 const NewChatMenu = ({
     isCreatingGroup,
@@ -8,12 +9,11 @@ const NewChatMenu = ({
     groupStep,
     selectedUsers,
     groupPhoto,
-    groupName,
-    groupDescription,
-    communityName,
-    communityDescription,
+    groupName: initialGroupName,
+    groupDescription: initialGroupDescription,
+    communityName: initialCommunityName,
+    communityDescription: initialCommunityDescription,
     communityError,
-    users,
     onToggleMenu,
     onSetIsCreatingGroup,
     onSetIsCreatingCommunity,
@@ -22,11 +22,71 @@ const NewChatMenu = ({
     onHandlePhotoChange,
     onSetGroupName,
     onSetGroupDescription,
+    onHandleCreateGroup,
     onHandleCreateCommunity,
     onSetCommunityName,
     onSetCommunityDescription,
     onSetCommunityError
 }) => {
+    const [users, setUsers] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
+     const [groupName, setGroupName] = useState(initialGroupName || '');
+     const [groupDescription, setGroupDescription] = useState(initialGroupDescription || '');
+     const [communityName, setCommunityName] = useState(initialCommunityName || '');
+     const [communityDescription, setCommunityDescription] = useState(initialCommunityDescription || '');
+
+    const accessToken = localStorage.getItem('accessToken');
+
+    useEffect(() => {
+         const fetchUsers = async () => {
+             try {
+                   const response = await axios.get(
+                     `http://localhost:8000/api/search_users/?q=${searchQuery}`,
+                       {
+                           headers: {
+                               Authorization: `Bearer ${accessToken}`,
+                           },
+                       }
+                   );
+                    setUsers(response.data);
+              } catch (error) {
+                  console.error("Ошибка загрузки пользователей:", error);
+                  setUsers([]);
+              }
+         };
+         if (isCreatingGroup && groupStep === 1) {
+            fetchUsers();
+         }
+    }, [isCreatingGroup, groupStep, accessToken, searchQuery]);
+
+     const handleSearchChange = (event) => {
+         setSearchQuery(event.target.value);
+     };
+
+      const filteredUsers = users.filter(user =>
+           user.username.toLowerCase().includes(searchQuery.toLowerCase())
+     );
+
+    const handleGroupNameChange = (e) => {
+        setGroupName(e.target.value);
+        onSetGroupName(e.target.value); // Update the parent if needed
+    };
+
+     const handleGroupDescriptionChange = (e) => {
+         setGroupDescription(e.target.value);
+        onSetGroupDescription(e.target.value); // Update the parent if needed
+    };
+
+    const handleCommunityNameChange = (e) => {
+         setCommunityName(e.target.value);
+         onSetCommunityName(e.target.value);
+     };
+
+     const handleCommunityDescriptionChange = (e) => {
+        setCommunityDescription(e.target.value);
+        onSetCommunityDescription(e.target.value);
+    };
+
     return (
         <div className="menu-overlay">
             <div className="menu-content">
@@ -85,18 +145,22 @@ const NewChatMenu = ({
                     groupStep === 1 ? (
                         <>
                             <h2 className="menu-title">Добавление в группу</h2>
-                            <InputGroup className="mb-3 menu-search">
-                                <FormControl placeholder="Поиск пользователей..." />
+                             <InputGroup className="mb-3 menu-search">
+                                 <FormControl
+                                    placeholder="Поиск пользователей..."
+                                   value={searchQuery}
+                                  onChange={handleSearchChange}
+                                 />
                             </InputGroup>
                             <ListGroup className="user-list">
-                                {users.map((user, index) => (
+                                {filteredUsers.map((user) => (
                                     <ListGroup.Item
-                                        key={index}
+                                        key={user.id}
                                         action
                                         onClick={() => onHandleAddToGroup(user)}
-                                        active={selectedUsers.includes(user)}
+                                        active={selectedUsers.some((selectedUser) => selectedUser.id === user.id)}
                                     >
-                                        {user}
+                                        {user.username}
                                     </ListGroup.Item>
                                 ))}
                             </ListGroup>
@@ -150,7 +214,7 @@ const NewChatMenu = ({
                                     <FormControl
                                         placeholder="Название группы"
                                         value={groupName}
-                                        onChange={(e) => onSetGroupName(e.target.value)}
+                                        onChange={handleGroupNameChange}
                                         style={{ backgroundColor: '#d3d3d3' }}
                                     />
                                 </InputGroup>
@@ -158,8 +222,8 @@ const NewChatMenu = ({
                                     <FormControl
                                         as="textarea"
                                         placeholder="Описание группы"
-                                        value={groupDescription}
-                                        onChange={(e) => onSetGroupDescription(e.target.value)}
+                                         value={groupDescription}
+                                        onChange={handleGroupDescriptionChange}
                                     />
                                 </InputGroup>
                                 <div className="menu-buttons">
@@ -174,7 +238,7 @@ const NewChatMenu = ({
                                         variant="primary"
                                         className="menu-button"
                                         disabled={!groupName.trim()}
-                                        onClick={() => alert('Группа успешно создана!')}
+                                        onClick={onHandleCreateGroup}
                                     >
                                         Далее
                                     </Button>
@@ -198,7 +262,7 @@ const NewChatMenu = ({
                                 <FormControl
                                     placeholder="Название сообщества"
                                     value={communityName}
-                                    onChange={(e) => onSetCommunityName(e.target.value)}
+                                    onChange={handleCommunityNameChange}
                                     style={{ backgroundColor: '#d3d3d3' }}
                                 />
                             </InputGroup>
@@ -207,7 +271,7 @@ const NewChatMenu = ({
                                     as="textarea"
                                     placeholder="Описание сообщества"
                                     value={communityDescription}
-                                    onChange={(e) => onSetCommunityDescription(e.target.value)}
+                                    onChange={handleCommunityDescriptionChange}
                                 />
                             </InputGroup>
                             <div className="menu-buttons">

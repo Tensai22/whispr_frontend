@@ -33,7 +33,7 @@
   border: 1px solid #007bff;
 }
 img, video{
-  max-width: 80%;
+  max-width: 60%;
   height: auto;
   display: block;
 }

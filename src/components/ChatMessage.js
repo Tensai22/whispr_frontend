@@ -1,3 +1,4 @@
+// ChatMessage.js
 import React from 'react';
 import '../css/ChatMessage.css';
 
@@ -9,7 +10,7 @@ function ChatMessage({ message }) {
             return null;
         }
 
-        const fileUrl = message.file.startsWith('http') ? message.file : `http://localhost:8000${message.file}`;;
+        const fileUrl = message.file.startsWith('http') ? message.file : `http://localhost:8000${message.file}`;
         const fileName = message.file.split('/').pop();
         const urlParts = fileUrl.split('/');
         const encodedFileName = urlParts[urlParts.length - 1];
@@ -18,20 +19,26 @@ function ChatMessage({ message }) {
         if (['jpg', 'jpeg', 'png', 'gif'].includes(fileExtension)) {
             return (
                 <div className="message-file">
-                    <img src={fileUrl} alt={fileName} style={{ maxWidth: '200px', maxHeight: '200px' }} />
+                    <img src={fileUrl} alt={fileName} />
                 </div>
             );
         } else if (['mp4', 'webm', 'ogg', 'mkv', 'mov'].includes(fileExtension)) {
             return (
                 <div className="message-file">
-                    <video src={fileUrl} controls style={{ maxWidth: '200px', maxHeight: '200px' }} />
+                    <video src={fileUrl} controls />
                 </div>
             );
+        } else if (['mp3', 'wav', 'aac', 'flac'].includes(fileExtension)){
+           return (
+                 <div className="message-file">
+                     <audio src={fileUrl} controls />
+                 </div>
+              );
         } else {
             return (
                 <div className="message-file">
                     <a href={fileUrl} target="_blank" rel="noopener noreferrer">
-                        <img src={require("../assets/Instagram_logo.png")} alt="Вложение" />
+                        <img src={require("../assets/folder.png")} alt="Вложение" />
                         {decodedFileName}
                     </a>
                 </div>
@@ -47,7 +54,7 @@ function ChatMessage({ message }) {
             )}
             <span className="username">{message.user ? message.user.username : 'Unknown'}</span>
             <span className="timestamp">{timestamp}</span>
-            {message.content && <div className="message-text"><div>{renderMedia()}</div> {message.content}</div>}
+            <div className="message-text"><div>{renderMedia()}</div> {message.content}</div>
 
         </div>
     );

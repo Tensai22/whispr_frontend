@@ -16,42 +16,71 @@ const ChatWindow = ({ selectedUser }) => {
         const fetchMessages = async () => {
             if (selectedUser && accessToken) {
                 try {
-                    const chatResponse = await axios.get(
-                        `http://localhost:8000/chat/private-chats/`,
-                        {
-                            headers: {
-                                Authorization: `Bearer ${accessToken}`,
-                            },
-                        }
-                    );
-                    const chat = chatResponse.data.find(chat =>
-                        chat.participants.some(id => id === selectedUser.id)
-                    );
-                    if (chat) {
+                    let chatResponse;
+                    let chat;
+                    if(selectedUser.members){
                         const response = await axios.get(
-                            `http://localhost:8000/chat/private-chats/${chat.id}/messages/`,
+                                `http://localhost:8000/chat/groups/${selectedUser.id}/messages/`,
+                                {
+                                    headers: {
+                                        Authorization: `Bearer ${accessToken}`,
+                                    },
+                                }
+                            );
+
+                             // Store file previews for initial messages
+                            const initialPreviews = {};
+                            response.data.forEach(msg => {
+                                if (msg.file && msg.filename) {
+                                initialPreviews[msg.id] = {
+                                    name: msg.filename,
+                                    type: msg.file.startsWith('data:image') ? 'image' : 'other',
+                                    dataUrl: msg.file
+                                   };
+                                }
+                             });
+                           setFilePreviews(initialPreviews);
+                             setMessages(response.data);
+
+
+                    } else {
+                          chatResponse = await axios.get(
+                            `http://localhost:8000/chat/private-chats/`,
                             {
                                 headers: {
                                     Authorization: `Bearer ${accessToken}`,
                                 },
                             }
                         );
-                         // Store file previews for initial messages
-                        const initialPreviews = {};
-                        response.data.forEach(msg => {
-                           if (msg.file && msg.filename) {
-                            initialPreviews[msg.id] = {
-                                name: msg.filename,
-                                type: msg.file.startsWith('data:image') ? 'image' : 'other',
-                                dataUrl: msg.file
-                               };
-                            }
-                         });
-                       setFilePreviews(initialPreviews);
-                        setMessages(response.data);
-                    } else {
-                        setMessages([]);
-                         setFilePreviews({});
+                        chat = chatResponse.data.find(chat =>
+                            chat.participants.some(id => id === selectedUser.id)
+                        );
+                        if (chat) {
+                            const response = await axios.get(
+                                `http://localhost:8000/chat/private-chats/${chat.id}/messages/`,
+                                {
+                                    headers: {
+                                        Authorization: `Bearer ${accessToken}`,
+                                    },
+                                }
+                            );
+                             // Store file previews for initial messages
+                            const initialPreviews = {};
+                            response.data.forEach(msg => {
+                               if (msg.file && msg.filename) {
+                                initialPreviews[msg.id] = {
+                                    name: msg.filename,
+                                    type: msg.file.startsWith('data:image') ? 'image' : 'other',
+                                    dataUrl: msg.file
+                                   };
+                                }
+                             });
+                           setFilePreviews(initialPreviews);
+                            setMessages(response.data);
+                        } else {
+                            setMessages([]);
+                             setFilePreviews({});
+                        }
                     }
 
                 } catch (error) {
@@ -121,34 +150,37 @@ const ChatWindow = ({ selectedUser }) => {
         }
 
         try {
-            const chatResponse = await axios.get(
-                `http://localhost:8000/chat/private-chats/`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                }
-            );
-            const chat = chatResponse.data.find(chat =>
-                chat.participants.some(id => id === selectedUser.id)
-            );
-
             let chatId;
-
-            if (!chat) {
-                const createChatResponse = await axios.post(
-                    `http://localhost:8000/chat/private-chats/`,
-                    { participants: [selectedUser.id] },
-                    {
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`,
-                        },
-                    }
-                )
-                chatId = createChatResponse.data.id;
+            if (selectedUser.members){
+                 chatId = selectedUser.id
             } else {
-                chatId = chat.id;
-            }
+                   const chatResponse = await axios.get(
+                        `http://localhost:8000/chat/private-chats/`,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${accessToken}`,
+                            },
+                        }
+                    );
+                    const chat = chatResponse.data.find(chat =>
+                        chat.participants.some(id => id === selectedUser.id)
+                    );
+                    if (!chat) {
+                       const createChatResponse = await axios.post(
+                           `http://localhost:8000/chat/private-chats/`,
+                           { participants: [selectedUser.id] },
+                           {
+                               headers: {
+                                   Authorization: `Bearer ${accessToken}`,
+                               },
+                           }
+                       )
+                       chatId = createChatResponse.data.id;
+                   } else {
+                       chatId = chat.id;
+                   }
+                }
+
 
              if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
                 let messageToSend = {
@@ -200,7 +232,11 @@ const ChatWindow = ({ selectedUser }) => {
         <div className="chat-window">
             {selectedUser ? (
                 <>
-                    <h2>{selectedUser.username}</h2>
+                   { selectedUser.members ? (
+                      <h2>{selectedUser.name}</h2>
+                    ) : (
+                      <h2>{selectedUser.username}</h2>
+                    )}
                     <div className="messages">
                          {messages.map(message => (
                              <div key={message.id}>
