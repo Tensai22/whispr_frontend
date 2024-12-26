@@ -10,6 +10,7 @@ import ChangeProfilePasswordForm from "./components/ChangeProfilePassword";
 import LogoutButton from "./authorization/Logout";
 import ChangeResetPassword from "./components/ChangeResetPassword";
 import ChatWindow from "./components/ChatWindow";
+import CommunityDetails from './components/CommunityDetails';
 
 const Router = ReactRouterDOM.BrowserRouter;
 const Route = ReactRouterDOM.Route;
@@ -28,7 +29,7 @@ const App = () => {
                 <Route path="/changepassword" element={<ChangePassword/>}/>
                 <Route path="/changeprofilepassword" element={<ChangeProfilePasswordForm/>}/>
                 <Route path="/reset/:uidb64/:token" element={<ChangeResetPassword/>} />
-                <Route path="/chat" component={<ChatWindow/>} />
+                <Route path="/communities/:id" element={<CommunityDetails />} />
             </Routes>
         </Router>
     );

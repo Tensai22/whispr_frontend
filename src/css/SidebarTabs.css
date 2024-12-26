@@ -7,7 +7,7 @@
     left: 0;
     bottom: 0;
     position: absolute;
-    margin-top: 12px; /* Добавляем отступ сверху */
+    margin-top: 20px; /* Подберите значение отступа */
 }
 
 .nav-tabs .nav-link {

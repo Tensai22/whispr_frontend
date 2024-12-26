@@ -1,34 +1,29 @@
-// CommunityList.js
 import React from 'react';
-import { ListGroup } from 'react-bootstrap'; // Импорт ListGroup
+import { ListGroup } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
-const CommunityList = ({ communities }) => {
+const CommunityList = ({ communities, onCommunitySelect }) => {
     return (
         <ListGroup className="chat-list">
-            <ul
-                style={{
-                    listStyle: 'none',
-                    margin: 0,
-                    padding: 0,
-                    maxHeight: 'inherit',
-                    overflowY: 'auto',
-                    backgroundColor: '#383838',
-                }}
-            >
-                {communities.map(community => (
-                    <li
-                        key={community.id}
-                        style={{
-                            padding: '10px',
-                            borderBottom: '1px solid #232323',
-                            cursor: 'pointer',
-                            backgroundColor: '#383838',
-                        }}
-                    >
+            {communities.map(community => (
+                <ListGroup.Item
+                    key={community.id}
+                    action
+                    as={Link}
+                    to={`/communities/${community.id}`}
+                    onClick={() => onCommunitySelect(community.id)}
+                >
+                    <div className="d-flex align-items-center">
+                        <img
+                            src={community.photo || require('../assets/community.png')} // Убедитесь, что путь к дефолтной картинке правильный
+                            alt="Community"
+                            className="community-img mr-3"
+                            style={{ width: '40px', height: '40px', borderRadius: '50%', marginRight: '10px' }}
+                        />
                         {community.name}
-                    </li>
-                ))}
-            </ul>
+                    </div>
+                </ListGroup.Item>
+            ))}
         </ListGroup>
     );
 };

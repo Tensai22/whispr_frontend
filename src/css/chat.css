@@ -267,8 +267,8 @@ input[type="file"] {
 }
 
 .sidebar .mb-3 {
-    position: relative;
-    top: 40px;
+    /*position: relative;
+    top: 40px;*/
 }
 
 .chat-window.welcome-mode {

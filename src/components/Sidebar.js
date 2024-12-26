@@ -1,6 +1,7 @@
-// Sidebar.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
+import { InputGroup, FormControl, ListGroup } from 'react-bootstrap';
 import SidebarHeader from './SidebarHeader';
 import SidebarTabs from './SidebarTabs';
 import ChatList from './ChatList';
@@ -25,7 +26,9 @@ const Sidebar = ({ onSelectUser }) => {
     const [isCreatingCommunity, setIsCreatingCommunity] = useState(false);
     const [communityName, setCommunityName] = useState('');
     const [communityDescription, setCommunityDescription] = useState('');
+    const [communitySearchQuery, setCommunitySearchQuery] = useState('');
     const accessToken = localStorage.getItem('accessToken');
+    const navigate = useNavigate();
 
     const handleTabSelect = (tab) => setActiveTab(tab);
 
@@ -120,11 +123,46 @@ const Sidebar = ({ onSelectUser }) => {
         }
     };
 
+    const searchCommunities = async (query) => {
+        try {
+            const response = await axios.get(`http://localhost:8000/chat/communities/search/?q=${query}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            setCommunities(response.data);
+        } catch (error) {
+            console.error('Error searching communities:', error);
+            setCommunities([]);
+        }
+    };
+
     useEffect(() => {
         if (activeTab === 'communities') {
             fetchUserCommunities();
         }
     }, [activeTab, accessToken]);
+
+    useEffect(() => {
+        const handleSearch = () => {
+          const query = communitySearchQuery;
+          if (activeTab === 'communities') {
+            if (query.length > 0) {
+              searchCommunities(query);
+            } else {
+              fetchUserCommunities();
+            }
+          }
+        };
+
+        const timeoutId = setTimeout(handleSearch, 300);
+
+        return () => clearTimeout(timeoutId);
+    }, [communitySearchQuery, activeTab]);
+
+    const handleCommunitySelect = (communityId) => {
+        navigate(`/communities/${communityId}`);
+    };
 
     return (
         <>
@@ -136,7 +174,6 @@ const Sidebar = ({ onSelectUser }) => {
                         activeTab={activeTab}
                         onTabSelect={handleTabSelect}
                     />
-                    {/*<SidebarTabs activeTab={activeTab} onTabSelect={handleTabSelect} />*/}
 
                     {activeTab === 'chats' && (
                         <ChatList
@@ -146,7 +183,17 @@ const Sidebar = ({ onSelectUser }) => {
                         />
                     )}
                     {activeTab === 'communities' && (
-                        <CommunityList communities={communities} />
+                        <>
+                            <InputGroup className="mb-3" style={{ padding: '0 10px' }}>
+                                <FormControl
+                                    id="community-search-input"
+                                    placeholder="Поиск сообществ..."
+                                    value={communitySearchQuery}
+                                    onChange={(e) => setCommunitySearchQuery(e.target.value)}
+                                />
+                            </InputGroup>
+                            <CommunityList communities={communities} onCommunitySelect={handleCommunitySelect} />
+                        </>
                     )}
                 </div>
             </div>
