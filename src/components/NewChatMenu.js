@@ -152,6 +152,7 @@ const NewChatMenu = ({
                                     placeholder="Поиск пользователей..."
                                    value={searchQuery}
                                   onChange={handleSearchChange}
+                                    style={{ color: 'black' }}
                                  />
                             </InputGroup>
                             <ListGroup className="user-list">
