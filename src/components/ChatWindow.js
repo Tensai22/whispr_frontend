@@ -204,7 +204,10 @@ const ChatWindow = ({ selectedUser }) => {
                     <div className="messages">
                          {messages.map(message => (
                              <div key={message.id}>
-                                <ChatMessage  message={message} />
+                                <ChatMessage
+                                    message={message}
+                                    isMine={message.isMine}
+                                />
                                 {renderFilePreview(message)}
                               </div>
                          ))}

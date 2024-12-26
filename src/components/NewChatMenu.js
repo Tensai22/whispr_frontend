@@ -34,7 +34,10 @@ const NewChatMenu = ({
                     <>
                         <h2 className="menu-title">Новый Чат</h2>
                         <InputGroup className="mb-3 menu-search">
-                            <FormControl placeholder="Поиск по имени..." />
+                            <FormControl placeholder="Поиск по имени..."
+                            style={{ color: 'black' }}
+                            />
+
                         </InputGroup>
                         <div className="menu-buttons">
                             <Button

@@ -7,7 +7,7 @@ body {
     background-color: #2e2e2e;
     margin: 0;
     font-family: Arial, sans-serif;
-    overflow-x: hidden;
+    overflow: hidden;
     position: relative;
 }
 
@@ -194,6 +194,8 @@ input[type="file"] {
     overflow-y: auto;
 }
 
+
+
 .sidebar .sidebar-header {
     position: relative;
     padding: 10px 10px;
@@ -214,7 +216,7 @@ input[type="file"] {
 
 .new-chat-button {
     position: absolute;
-    top: 10px;
+    top: 50px;
     right: 15px;
     border: none;
     background: none;
@@ -226,7 +228,6 @@ input[type="file"] {
 
 .new-chat-button:hover {
     background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
     transform: scale(1.1);
 }
 
@@ -238,9 +239,6 @@ input[type="file"] {
     width: 40px;
     height: 35px;
 }
-
-
-
 
 .nav-tabs .nav-link.active {
     color: #fff;
@@ -268,7 +266,7 @@ input[type="file"] {
 
 .sidebar .mb-3 {
     position: relative;
-    top: 40px;
+    top: 30px;
 }
 
 .chat-window.welcome-mode {

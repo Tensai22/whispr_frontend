@@ -1,0 +1,85 @@
+.sidebar-header {
+    display: flex;
+    flex-direction: column; /* Элементы располагаются вертикально */
+    align-items: center; /* Выравнивание по центру */
+    padding: 10px;
+    background-color: #333; /* Тёмный фон для контраста */
+}
+
+.sidebar-title {
+    font-size: 24px;
+    color: #fff;
+    margin-bottom: 10px; /* Отступ под заголовком */
+}
+
+.sidebar-search {
+    width: 100%; /* Полная ширина контейнера */
+    max-width: 400px; /* Ограничиваем максимальную ширину */
+    margin: 10px 0;
+}
+
+.sidebar-search input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.nav-tabs {
+    display: flex;
+    justify-content: space-around; /* Равномерное распределение */
+    width: 100%;
+    background-color: #333;
+}
+
+.nav-tabs .nav-link {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+    color: #fff;
+    border: none;
+    background: transparent;
+    transition: background-color 0.3s ease;
+}
+
+.nav-tabs .nav-link.active {
+    background-color: #444;
+    border-radius: 5px 5px 0 0;
+}
+
+.nav-tabs .nav-link:hover {
+    background-color: #555;
+}
+
+.new-chat-button {
+    top: 5px;
+    position: absolute;
+    right: 15px;
+    background: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 99%;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.new-chat-button:hover {
+    transform: scale(1.1);
+}
+
+.new-chat-button:hover img {
+    filter: brightness(1.2);
+}
+
+.new-chat-button img {
+    width: 50px;
+    height: 40px;
+    transition: transform 0.3s ease;
+}
+
+.new-chat-button:active {
+    transform: scale(0.95);
+}

@@ -1,36 +1,61 @@
 .chat-message {
-  display: flex;
-  align-items: flex-start;
-  margin-bottom: 10px;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    max-width: 70%;
+    border-radius: 10px;
+    overflow-x: hidden;
+    position: relative;
 }
 
 .avatar {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  margin-right: 10px;
+  margin-left: 10px;
 }
 
 .username {
   font-weight: bold;
-  margin-right: 5px;
 }
 
 .timestamp {
   color: #888;
   font-size: 0.8em;
-  margin-right: 10px;
+  position: absolute;
+  bottom: 10px;
+  right: calc(100% - 420px);
 }
 
 .message-text {
-  flex-grow: 1;
-  color: #cccccc;
+    margin: 0;
+}
+
+.chat-message.other {
+    align-self: flex-start;
+    justify-content: flex-start;
+    flex-direction: row;
+}
+
+.chat-message.mine {
+    align-self: flex-end;
+    justify-content: flex-end;
+    flex-direction: row-reverse;
+}
+
+.message-content {
+    padding: 10px;
+    border-radius: 10px;
+    word-wrap: break-word;
+    min-width: 50px;
+    max-width: calc(100% - 50px);
+    flex-direction: column;
+    color: white;
+    position: relative;
+    display: flex;
 }
 .message-file{
   padding: 5px;
-  background-color: #2c2c2c;
   border-radius: 8px;
-  border: 1px solid #007bff;
 }
 img, video{
   max-width: 80%;
