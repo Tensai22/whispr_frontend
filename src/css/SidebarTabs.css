@@ -1,13 +1,18 @@
 /* SidebarTabs.css */
 .nav-tabs {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     border-bottom: 1px solid #3a3a3a;
     width: 100%;
     left: 0;
     bottom: 0;
     position: absolute;
     margin-top: 20px; /* Подберите значение отступа */
+}
+
+.nav-tabs .nav-item {
+    flex: 1;
+    text-align: center;
 }
 
 .nav-tabs .nav-link {
@@ -21,8 +26,12 @@
 }
 
 .nav-tabs .nav-link.active {
-    color: #fff;
+
     background-color: #3a3a3a;
     border-color: #3a3a3a;
     width: 100px;
+}
+
+.nav-tabs .nav-link:hover {
+    background-color: #444; /* Фон при наведении */
 }

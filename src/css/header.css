@@ -16,14 +16,16 @@ header {
 }
 
 header img {
-    height: 100%;
-    width: auto;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 .logo-text {
     font-family: cursive;
     font-size: 30px;
     color: #202020;
-    margin-left: 5px;
+    margin-left: 20px;
 
 }

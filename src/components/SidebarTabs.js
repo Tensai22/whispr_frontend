@@ -1,7 +1,9 @@
 // SidebarTabs.js
 import React from 'react';
 import { Nav } from 'react-bootstrap';
-import '../css/SidebarTabs.css';// Импортируем стили
+import '../css/SidebarTabs.css';
+
+
 
 const SidebarTabs = ({ activeTab, onTabSelect }) => {
     return (

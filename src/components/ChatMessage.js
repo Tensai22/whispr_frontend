@@ -2,7 +2,7 @@
 import React from 'react';
 import '../css/ChatMessage.css';
 
-function ChatMessage({ message }) {
+function ChatMessage({ message, isMine }) {
     const timestamp = new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
     const renderMedia = () => {
@@ -28,12 +28,12 @@ function ChatMessage({ message }) {
                     <video src={fileUrl} controls />
                 </div>
             );
-        } else if (['mp3', 'wav', 'aac', 'flac'].includes(fileExtension)){
-           return (
-                 <div className="message-file">
-                     <audio src={fileUrl} controls />
-                 </div>
-              );
+        } else if (['mp3', 'aac', 'wav', 'flac', 'alac', 'dsd', 'ogg'].includes(fileExtension)) {
+            return (
+                <div className="message-file">
+                    <audio src={fileUrl} controls />
+                </div>
+            );
         } else {
             return (
                 <div className="message-file">
@@ -48,13 +48,27 @@ function ChatMessage({ message }) {
 
 
     return (
-        <div className="chat-message">
-            {message.user && message.user.avatar_url && (
-                <img className="avatar" src={`http://localhost:8000${message.user.avatar_url}`} alt={`${message.user.username}'s avatar`} />
+        <div className={`chat-message ${isMine ? 'mine' : 'other'}`}>
+            {!isMine && message.user?.avatar_url && (
+                <img
+                    className="avatar"
+                    src={`http://localhost:8000${message.user.avatar_url}`}
+                    alt={`${message.user.username}'s avatar`}
+                />
             )}
-            <span className="username">{message.user ? message.user.username : 'Unknown'}</span>
-            <span className="timestamp">{timestamp}</span>
-            <div className="message-text"><div>{renderMedia()}</div> {message.content}</div>
+            <span className="username">
+                {message.user ? message.user.username : 'Unknown'}
+            </span>
+            <div className="message-content">
+                <span className="timestamp">
+                    {timestamp}
+                </span>
+                {message.content &&
+                    <div className="message-text">
+                        <div>{renderMedia()}</div>
+                        {message.content}
+                    </div>}
+            </div>
 
         </div>
     );
